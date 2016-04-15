@@ -1,5 +1,6 @@
 QT = core gui quick
 CONFIG += c++11
+CONFIG -= debug_and_release
 TARGET = GameEngine
 TEMPLATE = lib
 OBJECTS_DIR = .obj
@@ -110,11 +111,9 @@ HEADERS += \
     Utility/Utility.hpp
 
 unix|win32: LIBS += -L$$OUT_PWD/SceneGraph/ -lSceneGraph
-
 INCLUDEPATH += $$PWD/SceneGraph
 DEPENDPATH += $$PWD/SceneGraph
 
 unix|win32: LIBS += -L$$OUT_PWD/Box2D/ -lBox2D
-
 INCLUDEPATH += $$PWD/Box2D
 DEPENDPATH += $$PWD/Box2D
