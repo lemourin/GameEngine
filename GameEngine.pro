@@ -4,10 +4,7 @@ TARGET = GameEngine
 TEMPLATE = lib
 OBJECTS_DIR = .obj
 MOC_DIR = .moc
-QMAKE_CXXFLAGS += -fno-strict-aliasing
-LIBS += -L$$OUT_PWD/../../build -lBox2D -lSceneGraph
-INCLUDEPATH += $$PWD/..
-DESTDIR = $$OUT_PWD/../../build
+INCLUDEPATH += Box2D/
 
 SOURCES += \
     Actions/Action.cpp \
