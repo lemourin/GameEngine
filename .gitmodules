@@ -1,3 +1,3 @@
 [submodule "deps/SceneGraph"]
-	path = deps/SceneGraph
+	path = SceneGraph
 	url = https://github.com/lemourin/SceneGraph.git
