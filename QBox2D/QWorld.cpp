@@ -293,38 +293,15 @@ QBody *QWorld::bodyUnderPoint(const QPointF &p,
   return nullptr;
 }
 
-class FixtureCB : public b2QueryCallback {
-public:
-  FixtureCB() {
-    m_fixture = nullptr;
-  }
-
-  bool ReportFixture(b2Fixture *fixture) override {
-    m_fixture = fixture;
-    return true;
-  }
-
-  b2Fixture *fixture() const {
-    return m_fixture;
-  }
-
-private:
-  b2Fixture *m_fixture;
-};
-
 QFixture *QWorld::fixtureUnderPoint(const QPointF &point) const {
-  FixtureCB m_cb;
   QPointF eps(0.01, 0.01);
   QPointF lower = point - eps;
   QPointF upper = point + eps;
-  b2AABB box;
-  box.lowerBound = b2Vec2(lower.x(), lower.y());
-  box.upperBound = b2Vec2(upper.x(), upper.y());
-  world()->QueryAABB(&m_cb, box);
-  if (!m_cb.fixture()) {
+  auto found = fixtures(QRectF(lower, upper));
+  if (found.empty()) {
     return nullptr;
   } else  {
-    return QFixture::toQFixture(m_cb.fixture());
+    return found.back();
   }
 }
 
