@@ -293,15 +293,15 @@ QBody *QWorld::bodyUnderPoint(const QPointF &p,
   return nullptr;
 }
 
-class FixtureCB : public b2RayCastCallback {
+class FixtureCB : public b2QueryCallback {
 public:
   FixtureCB() {
     m_fixture = nullptr;
   }
 
-  float32 ReportFixture(b2Fixture* fixture, const b2Vec2&, const b2Vec2&, float32) override {
+  bool ReportFixture(b2Fixture *fixture) override {
     m_fixture = fixture;
-    return 0.f;
+    return true;
   }
 
   b2Fixture *fixture() const {
@@ -314,7 +314,13 @@ private:
 
 QFixture *QWorld::fixtureUnderPoint(const QPointF &point) const {
   FixtureCB m_cb;
-  rayCast(&m_cb, point, point);
+  QPointF eps(0.01, 0.01);
+  QPointF lower = point - eps;
+  QPointF upper = point + eps;
+  b2AABB box;
+  box.lowerBound = b2Vec2(lower.x(), lower.y());
+  box.upperBound = b2Vec2(upper.x(), upper.y());
+  world()->QueryAABB(&m_cb, box);
   if (!m_cb.fixture()) {
     return nullptr;
   } else  {
