@@ -151,7 +151,7 @@ public:
 
   QBody *bodyUnderPoint(const QPointF &p,
                         std::function<bool(QBody *)> ok = nullptr) const;
-  QFixture *fixtureUnderPoint(const QPointF &p) const;
+  std::vector<QFixture *> fixturesUnderPoint(const QPointF &p) const;
 
   std::vector<QFixture *> fixtures(const QRectF &rect) const;
 
