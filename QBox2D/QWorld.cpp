@@ -293,16 +293,12 @@ QBody *QWorld::bodyUnderPoint(const QPointF &p,
   return nullptr;
 }
 
-QFixture *QWorld::fixtureUnderPoint(const QPointF &point) const {
+std::vector<QFixture *> QWorld::fixturesUnderPoint(const QPointF &point) const {
   QPointF eps(0.01, 0.01);
   QPointF lower = point - eps;
   QPointF upper = point + eps;
   auto found = fixtures(QRectF(lower, upper));
-  if (found.empty()) {
-    return nullptr;
-  } else  {
-    return found.back();
-  }
+  return found;
 }
 
 std::vector<QFixture *> QWorld::fixtures(const QRectF &rect) const {
