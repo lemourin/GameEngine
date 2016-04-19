@@ -22,7 +22,7 @@ class QFixture : public SceneGraph::Item {
   QBody* m_body;
   b2Fixture* m_fixture;
   b2FixtureDef m_fixtureDef;
-  List<QFixture*>::Node m_node;
+  List<std::unique_ptr<QFixture>>::Node m_node;
 
   SceneGraph::Item m_content;
 

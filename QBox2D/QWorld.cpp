@@ -82,7 +82,7 @@ QItemSet::~QItemSet() { clear(); }
 
 void QItemSet::clear() {
   while (!m_body.empty()) {
-    QBody *body = *m_body.begin();
+    QBody *body = m_body.begin()->first;
     assert(body->world());
     body->world()->destroyBody(body);
   }
@@ -92,19 +92,20 @@ bool QItemSet::contains(QBody *body) {
   return m_body.find(body) != m_body.end();
 }
 
-void QItemSet::addBody(QBody *body) { m_body.insert(body); }
+void QItemSet::addBody(std::unique_ptr<QBody> body) {
+  m_body[body.get()] = std::move(body);
+}
 
 void QItemSet::removeBody(QBody *body) {
   auto it = m_body.find(body);
   assert(it != m_body.end());
   m_body.erase(it);
-
-  delete body;
 }
 
 void QItemSet::write(QJsonObject &obj) const {
   QJsonArray array;
-  for (QBody *body : m_body) {
+  for (auto &t : m_body) {
+    QBody *body = t.first;
     QJsonObject object;
     if (body->write(object)) array.append(object);
   }
@@ -118,7 +119,7 @@ void QItemSet::read(const QJsonObject &obj) {
   for (int i = 0; i < array.size(); i++) {
     QJsonObject obj = array[i].toObject();
     QByteArray className = obj["class"].toString().toLocal8Bit();
-    QBody *body = m_world->factory()->create<QBody>(className);
+    auto body = m_world->factory()->create<QBody>(className);
     assert(body != nullptr);
 
     body->setParent(this);
@@ -127,7 +128,7 @@ void QItemSet::read(const QJsonObject &obj) {
       exit(1);
     }
 
-    addBody(body);
+    addBody(std::move(body));
   }
 }
 

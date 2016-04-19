@@ -12,9 +12,9 @@ void AddPolygon::reset() {
   update();
 }
 
-QFixture* AddPolygon::fixture() const {
+std::unique_ptr<QFixture> AddPolygon::fixture() const {
   if (m_pts.size() < 3) return nullptr;
-  Box2DPolygon* polygon = new Box2DPolygon;
+  auto polygon = std::make_unique<Box2DPolygon>();
   polygon->setVertices(m_pts);
 
   return polygon;

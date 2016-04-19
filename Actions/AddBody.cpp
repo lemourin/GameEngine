@@ -6,6 +6,7 @@
 #include "QBox2D/QBody.hpp"
 #include "QBox2D/QFixture.hpp"
 #include "QBox2D/QWorld.hpp"
+#include <memory>
 
 AddBody::AddBody(MapEditor* p)
     : SubAction(p),
@@ -17,20 +18,20 @@ AddBody::AddBody(MapEditor* p)
       m_object(this) {}
 
 void AddBody::finished() {
-  QBody* body = new QBody(world());
+  auto body = std::make_unique<QBody>(world());
 
-  for (QFixture* f : m_fixtures) body->addFixture(f);
+  for (auto &f : m_fixtures) body->addFixture(std::move(f));
   body->initialize(world());
 
-  world()->itemSet()->addBody(body);
+  world()->itemSet()->addBody(std::move(body));
   m_fixtures.clear();
 }
 
 void AddBody::subActionFinished(SubAction* action) {
-  QFixture* fixture = static_cast<AddFixture*>(action)->fixture();
+  auto fixture = std::move(static_cast<AddFixture*>(action)->fixture());
   if (fixture) {
     fixture->setParent(this);
-    m_fixtures.push_back(fixture);
+    m_fixtures.push_back(std::move(fixture));
   }
 
   action->reset();
@@ -38,7 +39,5 @@ void AddBody::subActionFinished(SubAction* action) {
 
 void AddBody::reset() {
   Action::reset();
-
-  for (QFixture* f : m_fixtures) delete f;
   m_fixtures.clear();
 }

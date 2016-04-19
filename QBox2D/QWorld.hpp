@@ -31,7 +31,7 @@ class QDestructionListener : public b2DestructionListener {
 class QItemSet : public SceneGraph::Item {
  private:
   QWorld *m_world;
-  std::unordered_set<QBody *> m_body;
+  std::unordered_map<QBody*, std::unique_ptr<QBody>> m_body;
 
  public:
   QItemSet(QWorld *world);
@@ -40,7 +40,7 @@ class QItemSet : public SceneGraph::Item {
   void clear();
   bool contains(QBody *);
 
-  void addBody(QBody *);
+  void addBody(std::unique_ptr<QBody>);
   void removeBody(QBody *);
 
   void write(QJsonObject &) const;

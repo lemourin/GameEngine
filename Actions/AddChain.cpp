@@ -3,6 +3,7 @@
 #include "QBox2D/QChain.hpp"
 #include "QBox2D/QWorld.hpp"
 #include "Utility/Utility.hpp"
+#include <memory>
 
 AddChain::AddChain(MapEditor* p) : SubAction(p), m_state(), m_object(this) {}
 
@@ -29,14 +30,14 @@ void AddChain::mouseMoveEvent(QMouseEvent* event) {
 
 void AddChain::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Return) {
-    QChain* chain = new QChain(world());
+    auto chain = std::make_unique<QChain>(world());
     chain->setVertices(m_pts);
     chain->initialize(world());
 
     m_state |= DirtyState::Finished;
     update();
 
-    world()->itemSet()->addBody(chain);
+    world()->itemSet()->addBody(std::move(chain));
 
     finished();
   }

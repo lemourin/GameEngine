@@ -12,8 +12,8 @@ void AddRectangle::reset() {
   update();
 }
 
-QFixture *AddRectangle::fixture() const {
-  Box2DBox *box = new Box2DBox;
+std::unique_ptr<QFixture> AddRectangle::fixture() const {
+  auto box = std::make_unique<Box2DBox>();
   box->setPosition(
       QPointF(std::min(m_p1.x(), m_p2.x()), std::min(m_p1.y(), m_p2.y())));
 

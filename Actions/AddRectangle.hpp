@@ -39,7 +39,7 @@ class AddRectangle : public AddFixture {
   AddRectangle(AddBody*);
 
   void reset();
-  QFixture* fixture() const;
+  std::unique_ptr<QFixture> fixture() const;
 
   inline QString name() const { return "AddRectangle"; }
 };

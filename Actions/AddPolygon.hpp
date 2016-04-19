@@ -30,7 +30,7 @@ class AddPolygon : public AddFixture {
   AddPolygon(AddBody *);
 
   void reset();
-  QFixture *fixture() const;
+  std::unique_ptr<QFixture> fixture() const;
 
   inline QString name() const { return "AddPolygon"; }
 };

@@ -36,7 +36,7 @@ class AddCircle : public AddFixture {
  public:
   AddCircle(AddBody *);
 
-  QFixture *fixture() const;
+  std::unique_ptr<QFixture> fixture() const;
   void reset();
 
   inline QString name() const { return "AddCircle"; }

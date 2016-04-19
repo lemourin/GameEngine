@@ -20,9 +20,9 @@ void QBody::destroyBody() {
   if (!body()) return;
   world()->onBodyDestroyed(this);
 
-  while (QFixture *f = firstFixture()) {
-    f->destroyFixture();
-    releaseResource(f);
+  while (firstFixture()) {
+    firstFixture()->destroyFixture();
+    releaseResource(firstFixture());
   }
 
   body()->SetUserData(nullptr);
@@ -118,21 +118,23 @@ void QBody::setAngularVelocity(qreal velocity) {
   if (body()) body()->SetAngularVelocity(velocity);
 }
 
-void QBody::addFixture(QFixture *f) {
+void QBody::addFixture(std::unique_ptr<QFixture> f) {
   m_fixtureList.append(&f->m_node);
   f->setParent(this);
   if (body()) f->initialize(this);
+  f->m_node.data() = std::move(f);
 }
 
-bool QBody::addFixture(const QJsonObject &obj, QFixture *fixture) {
+bool QBody::addFixture(const QJsonObject &obj,
+                       std::unique_ptr<QFixture> fixture) {
   fixture->m_body = this;
   if (!fixture->read(obj)) return false;
-  addFixture(fixture);
+  addFixture(std::move(fixture));
   return true;
 }
 
 QFixture *QBody::firstFixture() const {
-  return m_fixtureList.firstNode() ? m_fixtureList.firstNode()->data()
+  return m_fixtureList.firstNode() ? m_fixtureList.firstNode()->data().get()
                                    : nullptr;
 }
 
@@ -197,10 +199,10 @@ bool QBody::read(const QJsonObject &obj) {
   for (int i = 0; i < array.size(); i++) {
     QJsonObject obj = array[i].toObject();
     QByteArray name = obj["class"].toString().toLocal8Bit();
-    QFixture *fixture = world()->factory()->create<QFixture>(name);
+    auto fixture = world()->factory()->create<QFixture>(name);
     assert(fixture);
-    if (!addFixture(obj, fixture)) {
-      qDebug() << "Failed to add fixture of type" << fixture;
+    if (!addFixture(obj, std::move(fixture))) {
+      qDebug() << "Failed to add fixture of type" << fixture.get();
       exit(1);
     }
   }
@@ -249,7 +251,7 @@ void QBody::fixtureAdded(QFixture *f) { world()->onFixtureAdded(f); }
 
 void QBody::fixtureDestroyed(QFixture *f) { world()->onFixtureDestroyed(f); }
 
-void QBody::releaseResource(QFixture *f) { delete f; }
+void QBody::releaseResource(QFixture *) {}
 
 QBody *QBody::toQBody(b2Body *body) {
   return static_cast<QBody *>(body->GetUserData());

@@ -29,7 +29,6 @@ class SpriteSequence : public SceneGraph::Item {
   void visibleChanged();
   virtual void currentSpriteChanged();
   void timerEvent(QTimerEvent*);
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
  public:
   explicit SpriteSequence(SceneGraph::Item* = nullptr);

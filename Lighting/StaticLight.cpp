@@ -8,18 +8,18 @@
 
 StaticLight::StaticLight(Item *parent)
     : Light(parent), m_dynamicShadows(), m_dynamicLight() {
-  addFixture(&m_fixture);
-
-  m_fixture.setSensor(true);
-  m_fixture.setVisible(false);
-  m_fixture.setShadowCaster(false);
 }
 
 StaticLight::~StaticLight() { destroyBody(); }
 
 void StaticLight::initialize(QWorld *w) {
-  m_fixture.setPosition(QPointF(-radius(), -radius()));
-  m_fixture.setSize(QSizeF(2 * radius(), 2 * radius()));
+  auto fixture = std::make_unique<Box2DBox>();
+  fixture->setPosition(QPointF(-radius(), -radius()));
+  fixture->setSize(QSizeF(2 * radius(), 2 * radius()));
+  fixture->setSensor(true);
+  fixture->setVisible(false);
+  fixture->setShadowCaster(false);
+  addFixture(std::move(fixture));
 
   assert(lightSystem());
   lightSystem()->addLight(this);
@@ -28,8 +28,6 @@ void StaticLight::initialize(QWorld *w) {
 }
 
 void StaticLight::destroyBody() {
-  m_fixture.destroyFixture();
-
   if (lightSystem()) lightSystem()->removeLight(this);
 
   Light::destroyBody();

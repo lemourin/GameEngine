@@ -46,11 +46,11 @@ void QChain::cutCircle(Circle circle) {
     std::vector<Vector2d> pts(poly.begin(), poly.end() - 1);
 
     if (std::fabs(Geometry::area(pts.begin(), pts.end())) > 5.f) {
-      QChain *chain = new QChain(world());
+      auto chain = std::make_unique<QChain>(world());
       chain->setVertices(std::vector<QPointF>(pts.begin(), pts.end()));
       chain->initializeLater(world());
 
-      world()->itemSet()->addBody(chain);
+      world()->itemSet()->addBody(std::move(chain));
     }
   }
 
@@ -97,10 +97,9 @@ void QChain::createChain() {
     QPointF vec = pts[i] - pts[it];
     QPointF vecp = pts[it] - pts[prev], vecn = pts[next] - pts[i];
 
-    Box2DEdge *fixture = new Box2DEdge(this);
+    auto fixture = std::make_unique<Box2DEdge>(this);
     fixture->setVisible(false);
     fixture->setShadowCaster(false);
-    addFixture(fixture);
 
     b2EdgeShape &edge = fixture->edgeShape();
     edge.Set(tob2Vec2(pts[it]), tob2Vec2(pts[i]));
@@ -113,14 +112,15 @@ void QChain::createChain() {
       edge.m_hasVertex3 = true;
       edge.m_vertex3 = tob2Vec2(pts[next]);
     }
+    addFixture(std::move(fixture));
 
     prev = it, it = i;
     next = next + 1 < pts.size() ? next + 1 : 0;
   }
-  Box2DChain *chain = new Box2DChain;
+  auto chain = std::make_unique<Box2DChain>();
   chain->setVertices(pts);
   chain->setShadowCaster(false);
   chain->setSensor(true);
 
-  addFixture(chain);
+  addFixture(std::move(chain));
 }

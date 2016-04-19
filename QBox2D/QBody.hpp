@@ -22,7 +22,7 @@ class QBody : public BaseItem {
   b2Body* m_body;
   b2BodyDef m_bodyDef;
 
-  List<QFixture*> m_fixtureList;
+  List<std::unique_ptr<QFixture>> m_fixtureList;
   QWorld* m_world;
 
   SceneGraph::Item m_content;
@@ -99,8 +99,8 @@ class QBody : public BaseItem {
 
   void setTransform(QPointF position, qreal rotation);
 
-  void addFixture(QFixture* f);
-  bool addFixture(const QJsonObject&, QFixture* f);
+  void addFixture(std::unique_ptr<QFixture> f);
+  bool addFixture(const QJsonObject&, std::unique_ptr<QFixture> f);
 
   QFixture* firstFixture() const;
 

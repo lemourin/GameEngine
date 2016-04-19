@@ -1,7 +1,8 @@
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
-#include <unordered_map>
 #include <QDebug>
+#include <memory>
+#include <unordered_map>
 
 namespace Utility {
 
@@ -38,6 +39,14 @@ class Factory {
 
   std::unordered_map<std::string, const Base*> m_data;
 
+  template <class T>
+  T* privateCreate(const char* name) const {
+    auto it = m_data.find(name);
+    if (it == m_data.end()) return nullptr;
+
+    return static_cast<T*>(it->second->create());
+  }
+
  public:
   inline ~Factory() {
     for (auto p : m_data) delete p.second;
@@ -55,14 +64,10 @@ class Factory {
   }
 
   template <class T>
-  T* create(const char* name) const {
-    auto it = m_data.find(name);
-    if (it == m_data.end()) return nullptr;
-
-    return static_cast<T*>(it->second->create());
+  std::unique_ptr<T> create(const char* name) const {
+    return std::unique_ptr<T>(privateCreate<T>(name));
   }
 };
-
 }
 
 #endif  // FACTORY_HPP

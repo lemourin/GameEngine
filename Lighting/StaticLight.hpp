@@ -11,7 +11,6 @@ class StaticLight : public Light {
   friend class DynamicLight;
 
   bool m_dynamicShadows;
-  Box2DBox m_fixture;
   DynamicLight* m_dynamicLight;
 
  protected:

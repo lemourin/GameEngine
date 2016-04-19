@@ -13,11 +13,13 @@ class List {
     T m_data;
 
    public:
+    Node(): m_prev(), m_next(), m_data() {}
     Node(const T& data) : m_prev(), m_next(), m_data(data) {}
 
     Node* prev() const { return m_prev; }
     Node* next() const { return m_next; }
-    T data() const { return m_data; }
+    const T& data() const { return m_data; }
+    T& data() { return m_data; }
   };
 
  private:

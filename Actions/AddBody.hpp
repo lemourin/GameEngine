@@ -14,7 +14,7 @@ class AddBody : public SubAction {
   AddCircle m_addCircle;
   AddRectangle m_addRectangle;
   AddFixture* m_currentAction;
-  std::vector<QFixture*> m_fixtures;
+  std::vector<std::unique_ptr<QFixture>> m_fixtures;
   std::vector<Action*> m_action;
 
   ActionObject m_object;

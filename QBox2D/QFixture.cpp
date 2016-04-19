@@ -8,7 +8,7 @@ QFixture::QFixture(Item* parent)
     : SceneGraph::Item(parent),
       m_body(),
       m_fixture(),
-      m_node(this),
+      m_node(),
       m_shadowCaster(true) {}
 
 QFixture::~QFixture() { destroyFixture(); }
@@ -92,7 +92,7 @@ bool QFixture::write(QJsonObject& obj) const {
 }
 
 QFixture* QFixture::next() const {
-  return m_node.next() ? m_node.next()->data() : nullptr;
+  return m_node.next() ? m_node.next()->data().get() : nullptr;
 }
 
 bool QFixture::testOverlap(QFixture* f) {

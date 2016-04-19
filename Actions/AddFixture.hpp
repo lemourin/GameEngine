@@ -1,13 +1,13 @@
 #ifndef ADDFIXTURE_HPP
 #define ADDFIXTURE_HPP
+#include <memory>
+#include "QBox2D/QFixture.hpp"
 #include "SubAction.hpp"
-
-class QFixture;
 
 class AddFixture : public SubAction {
  public:
   AddFixture(Action*);
-  virtual QFixture* fixture() const = 0;
+  virtual std::unique_ptr<QFixture> fixture() const = 0;
 };
 
 #endif  // ADDFIXTURE_HPP
