@@ -33,7 +33,8 @@ class AddRectangle : public AddFixture {
   void mouseReleaseEvent(QMouseEvent* event);
   void mouseMoveEvent(QMouseEvent*);
 
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   AddRectangle(AddBody*);

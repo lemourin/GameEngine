@@ -46,8 +46,8 @@ class EnlightedItems : public SceneGraph::Item {
       float x, y;
     };
 
-    std::unordered_map<void *, SceneGraph::Geometry *> m_data;
-    std::vector<EnlightedNode *> m_node;
+    std::unordered_map<void *, std::unique_ptr<SceneGraph::Geometry>> m_data;
+    std::vector<std::unique_ptr<EnlightedNode>> m_node;
 
    public:
     Node();
@@ -60,7 +60,8 @@ class EnlightedItems : public SceneGraph::Item {
     void destroyedFixture(void *f);
   };
 
-  SceneGraph::Node *synchronize(SceneGraph::Node *old);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node> old);
   void onFixtureDestroyed(QFixture *);
 
  public:

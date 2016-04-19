@@ -5,14 +5,13 @@
 TexturedPolygon::TexturedPolygon(SceneGraph::Item* parent)
     : TexturedItem(parent), m_textureScale(1, 1) {}
 
-SceneGraph::Node* TexturedPolygon::synchronize(SceneGraph::Node* old) {
-  Node* node = static_cast<Node*>(old);
+std::unique_ptr<SceneGraph::Node> TexturedPolygon::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) root = std::make_unique<Node>(vertices(), textureScale());
 
-  if (!node) node = new Node(vertices(), textureScale());
+  static_cast<Node*>(root.get())->setTexture(texture());
 
-  node->setTexture(texture());
-
-  return node;
+  return root;
 }
 
 TexturedPolygon::Node::Node(const std::vector<QPointF>& pts, QVector2D scale)

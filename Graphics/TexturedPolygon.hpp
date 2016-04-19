@@ -24,7 +24,8 @@ class TexturedPolygon : public TexturedItem {
     void setTexture(QOpenGLTexture*);
   };
 
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   explicit TexturedPolygon(Item* parent = nullptr);

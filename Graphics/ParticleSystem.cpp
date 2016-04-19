@@ -40,10 +40,12 @@ void ParticleSystem::addExplosion(QPointF p, qreal r, qreal v,
   }
 }
 
-SceneGraph::Node* ParticleSystem::synchronize(SceneGraph::Node* old) {
-  Node* node = static_cast<Node*>(old);
-  if (!node) {
-    node = new Node;
+std::unique_ptr<SceneGraph::Node> ParticleSystem::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  Node* node = static_cast<Node*>(root.get());
+  if (!root) {
+    root = std::make_unique<Node>();
+    node = static_cast<Node*>(root.get());
 
     QColor color;
     color.setRgbF(1.0, 0.5, 0.5, 1.0);
@@ -58,7 +60,7 @@ SceneGraph::Node* ParticleSystem::synchronize(SceneGraph::Node* old) {
   node->material()->setTime(time());
   node->material()->setNormalMap(lightSystem()->normalMap()->shaderNode());
 
-  return node;
+  return root;
 }
 
 ParticleSystem::Node::Node() : m_geometry(attribute(), 0, sizeof(Vertex)) {

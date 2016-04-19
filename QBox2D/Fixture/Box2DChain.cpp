@@ -22,12 +22,12 @@ std::unique_ptr<b2Shape> Box2DChain::createShape() const {
   return chainShape;
 }
 
-SceneGraph::Node* Box2DChain::synchronize(SceneGraph::Node* old) {
-  PolygonNode* node = static_cast<PolygonNode*>(old);
+std::unique_ptr<SceneGraph::Node> Box2DChain::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
   if (!node) {
-    node = new PolygonNode(
+    node = std::make_unique<PolygonNode>(
         std::vector<QPointF>(m_vertices.begin(), m_vertices.end() - 1));
-    node->setColor(Qt::red);
+    static_cast<PolygonNode*>(node.get())->setColor(Qt::red);
   }
 
   return node;

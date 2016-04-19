@@ -66,12 +66,12 @@ std::unique_ptr<b2Shape> Box2DPolygon::createShape() const {
   return shape;
 }
 
-SceneGraph::Node* Box2DPolygon::synchronize(SceneGraph::Node* old) {
-  ConvexPolygonNode* node = static_cast<ConvexPolygonNode*>(old);
-  if (!node) {
-    node = new ConvexPolygonNode(vertices());
-    node->setColor(Qt::blue);
+std::unique_ptr<SceneGraph::Node> Box2DPolygon::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) {
+    root = std::make_unique<ConvexPolygonNode>(vertices());
+    static_cast<ConvexPolygonNode*>(root.get())->setColor(Qt::blue);
   }
 
-  return node;
+  return root;
 }

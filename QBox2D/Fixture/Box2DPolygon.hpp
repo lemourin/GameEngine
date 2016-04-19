@@ -14,7 +14,8 @@ class Box2DPolygon : public Fixture {
 
  protected:
   std::unique_ptr<b2Shape> createShape() const;
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   explicit Box2DPolygon(Item* = nullptr);

@@ -6,7 +6,8 @@ class Box2DChain : public Box2DPolygon {
  private:
  protected:
   std::unique_ptr<b2Shape> createShape() const;
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   explicit Box2DChain(Item* = nullptr);

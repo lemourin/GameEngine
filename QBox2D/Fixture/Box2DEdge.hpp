@@ -9,7 +9,8 @@ class Box2DEdge : public QFixture {
 
  protected:
   std::unique_ptr<b2Shape> createShape() const;
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   explicit Box2DEdge(SceneGraph::Item* parent = nullptr);

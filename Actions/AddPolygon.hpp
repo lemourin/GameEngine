@@ -14,7 +14,7 @@ class AddPolygon : public AddFixture {
 
   class Node : public SceneGraph::Node {
    private:
-    std::vector<SceneGraph::Node *> m_node;
+    std::vector<std::unique_ptr<SceneGraph::Node>> m_node;
 
    public:
     Node(std::vector<QPointF> pts, QSizeF size);
@@ -24,7 +24,8 @@ class AddPolygon : public AddFixture {
  protected:
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
-  SceneGraph::Node *synchronize(SceneGraph::Node *);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   AddPolygon(AddBody *);

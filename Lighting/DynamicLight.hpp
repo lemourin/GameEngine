@@ -32,7 +32,8 @@ class DynamicLight : public Light {
   class DynamicNode : public Light::LightNode {
    private:
     SceneGraph::Node m_shadows;
-    std::vector<ShadowNode*> m_unused;
+    std::vector<std::unique_ptr<ShadowNode>> m_unused;
+    std::vector<std::unique_ptr<ShadowNode>> m_used;
 
    public:
     DynamicNode();
@@ -45,7 +46,8 @@ class DynamicLight : public Light {
   bool castingShadow(QPointF p1, QPointF p2) const;
 
  protected:
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   explicit DynamicLight(SceneGraph::Item* = nullptr);

@@ -102,7 +102,8 @@ class ParticleSystem : public SceneGraph::Item {
   };
 
  protected:
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   ParticleSystem(SceneGraph::Item* = nullptr);

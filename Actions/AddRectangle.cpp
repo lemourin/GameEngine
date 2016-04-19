@@ -47,10 +47,8 @@ void AddRectangle::mouseMoveEvent(QMouseEvent *event) {
   }
 }
 
-SceneGraph::Node *AddRectangle::synchronize(SceneGraph::Node *old) {
-  SceneGraph::TransformNode *node =
-      static_cast<SceneGraph::TransformNode *>(old);
-
+std::unique_ptr<SceneGraph::Node> AddRectangle::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
   if (m_state & Reset) {
     m_state ^= Reset;
     node = nullptr;
@@ -62,8 +60,8 @@ SceneGraph::Node *AddRectangle::synchronize(SceneGraph::Node *old) {
     matrix.translate(m_p1.x(), m_p1.y());
     matrix.scale(m_cursor.x() - m_p1.x(), m_cursor.y() - m_p1.y());
 
-    if (!node) node = new Rectangle;
-    node->setMatrix(matrix);
+    if (!node) node = std::make_unique<Rectangle>();
+    static_cast<Rectangle *>(node.get())->setMatrix(matrix);
   }
 
   return node;

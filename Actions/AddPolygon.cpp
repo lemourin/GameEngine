@@ -38,12 +38,13 @@ void AddPolygon::mouseReleaseEvent(QMouseEvent* event) {
   update();
 }
 
-SceneGraph::Node* AddPolygon::synchronize(SceneGraph::Node*) {
+std::unique_ptr<SceneGraph::Node> AddPolygon::synchronize(
+    std::unique_ptr<SceneGraph::Node>) {
   if (m_pts.size() < 3) {
-    return new Node(m_pts, QSizeF(1, 1));
+    return std::make_unique<Node>(m_pts, QSizeF(1, 1));
   }
 
-  ConvexPolygonNode* node = new ConvexPolygonNode(m_pts);
+  auto node = std::make_unique<ConvexPolygonNode>(m_pts);
   node->setColor(Qt::yellow);
 
   return node;
@@ -57,13 +58,11 @@ AddPolygon::Node::Node(std::vector<QPointF> pts, QSizeF size) {
                                    QPointF(0.5 * w + p.x(), 0.5 * h + p.y()),
                                    QPointF(-0.5 * w + p.x(), 0.5 * h + p.y())};
 
-    ConvexPolygonNode* node = new ConvexPolygonNode(vertex);
-    appendChild(node);
+    auto node = std::make_unique<ConvexPolygonNode>(vertex);
+    appendChild(node.get());
 
-    m_node.push_back(node);
+    m_node.push_back(std::move(node));
   }
 }
 
-AddPolygon::Node::~Node() {
-  for (SceneGraph::Node* node : m_node) delete node;
-}
+AddPolygon::Node::~Node() {}

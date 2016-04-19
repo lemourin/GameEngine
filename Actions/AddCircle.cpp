@@ -50,9 +50,8 @@ void AddCircle::mouseMoveEvent(QMouseEvent* event) {
   }
 }
 
-SceneGraph::Node* AddCircle::synchronize(SceneGraph::Node* old) {
-  Circle* node = static_cast<Circle*>(old);
-
+std::unique_ptr<SceneGraph::Node> AddCircle::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
   if (m_stateChange & ResetAction) {
     m_stateChange ^= ResetAction;
     node = nullptr;
@@ -63,9 +62,9 @@ SceneGraph::Node* AddCircle::synchronize(SceneGraph::Node* old) {
     matrix.translate(m_position.x(), m_position.y());
     matrix.scale(m_radius);
 
-    node = new Circle;
-    node->setMatrix(matrix);
-    node->m_circleNode.setColor(Qt::yellow);
+    node = std::make_unique<Circle>();
+    static_cast<Circle*>(node.get())->setMatrix(matrix);
+    static_cast<Circle*>(node.get())->m_circleNode.setColor(Qt::yellow);
   }
 
   return node;

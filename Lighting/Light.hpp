@@ -37,7 +37,8 @@ class Light : public QBody {
     void synchronize(Light* light);
   };
 
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   Light(Item* = nullptr);

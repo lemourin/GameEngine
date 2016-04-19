@@ -11,10 +11,10 @@ void TexturedRectangle::setTextureRect(QRectF rect) {
   }
 }
 
-SceneGraph::Node* TexturedRectangle::synchronize(SceneGraph::Node* old) {
-  Node* node = static_cast<Node*>(old);
-  if (!node) node = new Node;
-  node->synchronize(this);
+std::unique_ptr<SceneGraph::Node> TexturedRectangle::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
+  if (!node) node = std::make_unique<Node>();
+  static_cast<Node*>(node.get())->synchronize(this);
   return node;
 }
 

@@ -90,11 +90,11 @@ bool Light::write(QJsonObject &obj) const {
   return true;
 }
 
-SceneGraph::Node *Light::synchronize(SceneGraph::Node *old) {
-  Light::LightNode *node = static_cast<LightNode *>(old);
-  if (!node) node = new LightNode;
+std::unique_ptr<SceneGraph::Node> Light::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
+  if (!node) node = std::make_unique<LightNode>();
 
-  node->synchronize(this);
+  static_cast<LightNode *>(node.get())->synchronize(this);
 
   return node;
 }

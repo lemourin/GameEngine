@@ -53,16 +53,16 @@ void GrabItem::destroyJoint() {
   m_grabbedBody = nullptr;
 }
 
-SceneGraph::Node* GrabItem::synchronize(SceneGraph::Node* old) {
-  ArrowNode* node = static_cast<ArrowNode*>(old);
-
-  if (!node) node = new ArrowNode;
+std::unique_ptr<SceneGraph::Node> GrabItem::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
+  if (!node) node = std::make_unique<ArrowNode>();
 
   if (m_mouseJoint && m_mouseJoint->joint()) {
-    node->setP2(m_mouseJoint->anchorA());
-    node->setP1(m_mouseJoint->anchorB());
+    ArrowNode* t = static_cast<ArrowNode*>(node.get());
+    t->setP2(m_mouseJoint->anchorA());
+    t->setP1(m_mouseJoint->anchorB());
 
-    node->updateGeometry();
+    t->updateGeometry();
   }
 
   update();

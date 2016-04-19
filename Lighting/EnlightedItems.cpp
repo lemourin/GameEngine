@@ -13,9 +13,11 @@ void EnlightedItems::clear() { m_state |= Reset; }
 
 QWorld* EnlightedItems::world() const { return lightSystem()->world(); }
 
-SceneGraph::Node* EnlightedItems::synchronize(SceneGraph::Node* old) {
-  Node* node = static_cast<Node*>(old);
-  if (!node) node = new Node;
+std::unique_ptr<SceneGraph::Node> EnlightedItems::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) root = std::make_unique<Node>();
+
+  Node* node = static_cast<Node*>(root.get());
   while (node->firstChild()) node->removeChild(node->firstChild());
 
   if (m_state & Reset) {
@@ -37,7 +39,7 @@ SceneGraph::Node* EnlightedItems::synchronize(SceneGraph::Node* old) {
     QRectF rect = visibleArea.intersected(lightRect);
     for (QFixture* f : world()->fixtures(rect)) {
       if (f->shadowCaster()) {
-        SceneGraph::Node* enlightedNode = node->getNode(f, light, it++);
+        EnlightedNode* enlightedNode = node->getNode(f, light, it++);
         node->appendChild(enlightedNode);
       }
     }
@@ -45,7 +47,7 @@ SceneGraph::Node* EnlightedItems::synchronize(SceneGraph::Node* old) {
 
   update();
 
-  return node;
+  return root;
 }
 
 void EnlightedItems::onFixtureDestroyed(QFixture* f) {
@@ -83,37 +85,35 @@ EnlightedItems::Node::Node() : m_node(1) {}
 EnlightedItems::Node::~Node() { clear(); }
 
 void EnlightedItems::Node::clear() {
-  for (std::pair<void*, SceneGraph::Geometry*> pair : m_data)
-    delete pair.second;
   m_data.clear();
-
-  for (EnlightedNode* node : m_node) delete node;
   m_node.clear();
   m_node.resize(1);
 }
 
 SceneGraph::Geometry* EnlightedItems::Node::geometry(QFixture* fixture) {
-  if (m_data.find(fixture) != m_data.end()) return m_data[fixture];
+  if (m_data.find(fixture) != m_data.end()) return m_data[fixture].get();
 
   std::vector<QPointF> vert = fixture->vertices();
-  SceneGraph::Geometry* g = new SceneGraph::Geometry(
-      {{2, GL_FLOAT}}, vert.size() - 1, sizeof(Vertex));
+  std::unique_ptr<SceneGraph::Geometry> g =
+      std::make_unique<SceneGraph::Geometry>(
+          std::vector<SceneGraph::Attribute>({{2, GL_FLOAT}}), vert.size() - 1,
+          sizeof(Vertex));
   Vertex* array = g->vertexData<Vertex>();
   g->setDrawingMode(GL_TRIANGLE_FAN);
   for (uint i = 0; i + 1 < vert.size(); i++)
     array[i] = {float(vert[i].x()), float(vert[i].y())};
   g->updateVertexData();
 
-  return m_data[fixture] = g;
+  return (m_data[fixture] = std::move(g)).get();
 }
 
 EnlightedNode* EnlightedItems::Node::getNode(QFixture* f, Light* light,
                                              uint it) {
   if (it >= m_node.size()) m_node.resize(2 * m_node.size());
 
-  if (m_node[it] == nullptr) m_node[it] = new EnlightedNode;
+  if (m_node[it] == nullptr) m_node[it] = std::make_unique<EnlightedNode>();
 
-  EnlightedNode* node = m_node[it];
+  EnlightedNode* node = m_node[it].get();
   node->setGeometry(geometry(f));
   node->update(f, light);
 
@@ -122,9 +122,7 @@ EnlightedNode* EnlightedItems::Node::getNode(QFixture* f, Light* light,
 
 void EnlightedItems::Node::destroyedFixture(void* f) {
   auto it = m_data.find(f);
-
   if (it != m_data.end()) {
-    delete it->second;
     m_data.erase(it);
   }
 }

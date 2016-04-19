@@ -46,7 +46,8 @@ class LightSystem : public SceneGraph::Item {
   void addBody(QBody*);
 
  protected:
-  SceneGraph::Node* synchronize(SceneGraph::Node* old);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node> old);
   void onFixtureDestroyed(QFixture*);
 
  public:

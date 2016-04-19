@@ -56,7 +56,7 @@ class EdgeNode : public SceneGraph::GeometryNode {
 
 class CircleNode : public SceneGraph::GeometryNode {
  private:
-  ConvexPolygonGeometry* m_geometry;
+  std::unique_ptr<ConvexPolygonGeometry> m_geometry;
   SceneGraph::ColorMaterial m_material;
 
  public:

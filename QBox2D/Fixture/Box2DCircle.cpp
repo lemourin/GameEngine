@@ -33,12 +33,12 @@ std::unique_ptr<b2Shape> Box2DCircle::createShape() const {
   return shape;
 }
 
-SceneGraph::Node* Box2DCircle::synchronize(SceneGraph::Node* old) {
-  CircleNode* node = static_cast<CircleNode*>(old);
-  if (!node) {
-    node = new CircleNode(QPointF(), radius());
-    node->setColor(Qt::green);
+std::unique_ptr<SceneGraph::Node> Box2DCircle::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) {
+    root = std::make_unique<CircleNode>(QPointF(), radius());
+    static_cast<CircleNode*>(root.get())->setColor(Qt::green);
   }
 
-  return node;
+  return root;
 }

@@ -3,16 +3,13 @@
 TexturedConvexPolygon::TexturedConvexPolygon(SceneGraph::Item* parent)
     : TexturedPolygon(parent) {}
 
-SceneGraph::Node* TexturedConvexPolygon::synchronize(SceneGraph::Node* old) {
-  Node* node = static_cast<Node*>(old);
+std::unique_ptr<SceneGraph::Node> TexturedConvexPolygon::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) root = std::make_unique<Node>(vertices(), textureScale());
 
-  if (!node) {
-    node = new Node(vertices(), textureScale());
-  }
+  static_cast<Node*>(root.get())->setTexture(texture());
 
-  node->setTexture(texture());
-
-  return node;
+  return root;
 }
 
 TexturedConvexPolygon::Node::Node(const std::vector<QPointF>& pts,

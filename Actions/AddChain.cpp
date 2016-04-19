@@ -1,9 +1,9 @@
 #include "AddChain.hpp"
+#include <memory>
 #include "MapEditor.hpp"
 #include "QBox2D/QChain.hpp"
 #include "QBox2D/QWorld.hpp"
 #include "Utility/Utility.hpp"
-#include <memory>
 
 AddChain::AddChain(MapEditor* p) : SubAction(p), m_state(), m_object(this) {}
 
@@ -43,31 +43,31 @@ void AddChain::keyPressEvent(QKeyEvent* event) {
   }
 }
 
-SceneGraph::Node* AddChain::synchronize(SceneGraph::Node* n) {
+std::unique_ptr<SceneGraph::Node> AddChain::synchronize(
+    std::unique_ptr<SceneGraph::Node> n) {
   if (pts().size() == 0) {
     return nullptr;
   }
 
-  Node* node = static_cast<Node*>(n);
-
   if (m_state & DirtyState::Points) {
-    node = new Node(pts());
+    n = std::make_unique<Node>(pts());
     m_state ^= DirtyState::Points;
   }
 
+  Node* node = static_cast<Node*>(n.get());
   if (m_state & DirtyState::MousePos) {
     node->setLastPoint(m_mousePos);
     m_state ^= DirtyState::MousePos;
   }
 
   if (m_state & DirtyState::Finished) {
-    node = nullptr;
+    n = nullptr;
 
     m_pts.clear();
     m_state ^= DirtyState::Finished;
   }
 
-  return node;
+  return n;
 }
 
 AddChain::Node::Node(std::vector<QPointF> pts)

@@ -32,7 +32,8 @@ class AddChain : public SubAction {
   void mouseReleaseEvent(QMouseEvent* event);
   void mouseMoveEvent(QMouseEvent*);
   void keyPressEvent(QKeyEvent* event);
-  SceneGraph::Node* synchronize(SceneGraph::Node*);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   AddChain(MapEditor* = nullptr);

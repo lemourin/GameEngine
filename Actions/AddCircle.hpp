@@ -31,7 +31,8 @@ class AddCircle : public AddFixture {
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *);
-  SceneGraph::Node *synchronize(SceneGraph::Node *old);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node>);
 
  public:
   AddCircle(AddBody *);

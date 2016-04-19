@@ -76,7 +76,8 @@ CircleNode::CircleNode(QPointF pos, float radius, int accuracy) {
     points[i] = {x, y};
   }
 
-  setGeometry(m_geometry = new ConvexPolygonGeometry(points));
+  m_geometry = std::make_unique<ConvexPolygonGeometry>(points);
+  setGeometry(m_geometry.get());
   setMaterial(&m_material);
 }
 
@@ -85,4 +86,4 @@ CircleNode::CircleNode(const Circle& circle, int accuracy)
 
 void CircleNode::setColor(QColor color) { m_material.setColor(color); }
 
-CircleNode::~CircleNode() { delete m_geometry; }
+CircleNode::~CircleNode() {}

@@ -62,31 +62,29 @@ bool DynamicLight::castingShadow(QPointF p1, QPointF p2) const {
   return p1.x() * p2.y() - p1.y() * p2.x() > 0;
 }
 
-SceneGraph::Node *DynamicLight::synchronize(SceneGraph::Node *old) {
-  DynamicNode *rootNode = static_cast<DynamicNode *>(old);
-  if (!rootNode) rootNode = new DynamicNode;
+std::unique_ptr<SceneGraph::Node> DynamicLight::synchronize(
+    std::unique_ptr<SceneGraph::Node> node) {
+  if (!node) node = std::make_unique<DynamicNode>();
 
-  rootNode->synchronize(this, lightSystem()->world());
+  static_cast<DynamicNode *>(node.get())
+      ->synchronize(this, lightSystem()->world());
 
-  return rootNode;
+  return node;
 }
 
 DynamicLight::DynamicNode::DynamicNode() { appendChild(&m_shadows); }
 
-DynamicLight::DynamicNode::~DynamicNode() {
-  for (ShadowNode *node : m_unused) delete node;
-  m_unused.clear();
-
-  while (m_shadows.firstChild()) delete m_shadows.firstChild();
-}
+DynamicLight::DynamicNode::~DynamicNode() {}
 
 void DynamicLight::DynamicNode::synchronize(DynamicLight *light,
                                             QWorld *world) {
   LightNode::synchronize(light);
 
-  while (m_shadows.firstChild()) {
-    m_unused.push_back(static_cast<ShadowNode *>(m_shadows.firstChild()));
-    m_shadows.removeChild(m_shadows.firstChild());
+  while (m_shadows.firstChild()) m_shadows.removeChild(m_shadows.firstChild());
+
+  while (!m_used.empty()) {
+    m_unused.push_back(std::move(m_used.back()));
+    m_used.pop_back();
   }
 
   QRectF lightRect = light->matrix().mapRect(light->boundingRect());
@@ -111,16 +109,15 @@ void DynamicLight::DynamicNode::makeShadowNode(DynamicLight *light, QPointF p1,
                                                QPointF p2) {
   if (!light->castingShadow(p1, p2)) return;
   if (!m_unused.empty()) {
-    ShadowNode *node = m_unused.back();
+    std::unique_ptr<ShadowNode> node = std::move(m_unused.back());
     m_unused.pop_back();
-
     node->setVertices(p1, p2);
-
-    m_shadows.appendChild(node);
-
+    m_shadows.appendChild(node.get());
+    m_used.push_back(std::move(node));
   } else {
-    ShadowNode *node = new ShadowNode(p1, p2);
-    m_shadows.appendChild(node);
+    std::unique_ptr<ShadowNode> node = std::make_unique<ShadowNode>(p1, p2);
+    m_shadows.appendChild(node.get());
+    m_used.push_back(std::move(node));
   }
 }
 

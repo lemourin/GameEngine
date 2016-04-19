@@ -72,8 +72,7 @@ void LightSystem::initialize() {
 
 void LightSystem::clear() {
   m_enlightedItems.clear();
-  while (!m_loadedLights.empty())
-    removeLight(m_loadedLights.begin()->first);
+  while (!m_loadedLights.empty()) removeLight(m_loadedLights.begin()->first);
 }
 
 void LightSystem::setSize(QSizeF s) {
@@ -150,11 +149,12 @@ void LightSystem::addBody(QBody* body) {
   body->content()->setParent(normalMap()->sourceItem());
 }
 
-SceneGraph::Node* LightSystem::synchronize(SceneGraph::Node* old) {
-  LightBlender* node = static_cast<LightBlender*>(old);
-  if (!node) {
-    node = new LightBlender;
+std::unique_ptr<SceneGraph::Node> LightSystem::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) {
+    root = std::make_unique<LightBlender>();
 
+    LightBlender* node = static_cast<LightBlender*>(root.get());
     SceneGraph::ShaderSource* array[DYNAMIC_LIGHTS_COUNT];
     for (uint i = 0; i < DYNAMIC_LIGHTS_COUNT; i++)
       array[i] = &m_framebuffer[i];
@@ -165,7 +165,7 @@ SceneGraph::Node* LightSystem::synchronize(SceneGraph::Node* old) {
     node->material()->setLightTexture(lightTexture());
   }
 
-  return node;
+  return root;
 }
 
 void LightSystem::onFixtureDestroyed(QFixture* f) {

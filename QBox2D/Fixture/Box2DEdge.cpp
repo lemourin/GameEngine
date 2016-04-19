@@ -14,12 +14,12 @@ std::unique_ptr<b2Shape> Box2DEdge::createShape() const {
   return std::make_unique<b2EdgeShape>(m_edgeShape);
 }
 
-SceneGraph::Node* Box2DEdge::synchronize(SceneGraph::Node* old) {
-  EdgeNode* node = static_cast<EdgeNode*>(old);
-  if (!node) {
+std::unique_ptr<SceneGraph::Node> Box2DEdge::synchronize(
+    std::unique_ptr<SceneGraph::Node> root) {
+  if (!root) {
     std::vector<QPointF> v = vertices();
-    node = new EdgeNode(v[0], v[1]);
+    root = std::make_unique<EdgeNode>(v[0], v[1]);
   }
 
-  return node;
+  return root;
 }

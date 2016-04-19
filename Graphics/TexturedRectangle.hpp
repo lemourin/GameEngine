@@ -1,10 +1,10 @@
 #ifndef TEXTUREDRECTANGLE_HPP
 #define TEXTUREDRECTANGLE_HPP
 
-#include "TexturedItem.hpp"
-#include "SceneGraph/Node.hpp"
 #include "SceneGraph/Geometry.hpp"
 #include "SceneGraph/Material.hpp"
+#include "SceneGraph/Node.hpp"
+#include "TexturedItem.hpp"
 
 class TexturedRectangle : public TexturedItem {
  private:
@@ -26,7 +26,8 @@ class TexturedRectangle : public TexturedItem {
     void updateGeometry(const TexturedRectangle*);
   };
 
-  SceneGraph::Node* synchronize(SceneGraph::Node* old);
+  std::unique_ptr<SceneGraph::Node> synchronize(
+      std::unique_ptr<SceneGraph::Node> old);
 
  public:
   explicit TexturedRectangle(SceneGraph::Item* = nullptr);

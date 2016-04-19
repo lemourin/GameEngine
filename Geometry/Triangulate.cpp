@@ -25,9 +25,7 @@ float Triangulate::Area(const Vector2dVector &contour) {
   defined by A, B, C.
 */
 bool Triangulate::InsideTriangle(float Ax, float Ay, float Bx, float By,
-                                 float Cx, float Cy, float Px, float Py)
-
-{
+                                 float Cx, float Cy, float Px, float Py) {
   float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
   float cCROSSap, bCROSScp, aCROSSbp;
 
