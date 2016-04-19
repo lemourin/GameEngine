@@ -1,8 +1,6 @@
 #ifndef QWORLD_H
 #define QWORLD_H
 
-#include "QBody.hpp"
-#include "Utility/Factory.hpp"
 #include <Box2D/Box2D.h>
 #include <QBasicTimer>
 #include <QOpenGLFunctions>
@@ -10,12 +8,14 @@
 #include <deque>
 #include <functional>
 #include <unordered_set>
+#include "QBody.hpp"
+#include "Utility/Factory.hpp"
 
 class QWorld;
 class QFixture;
 
 class QContactListener : public b2ContactListener {
-public:
+ public:
   void BeginContact(b2Contact *contact);
   void EndContact(b2Contact *contact);
   void PreSolve(b2Contact *contact, const b2Manifold *oldManifold);
@@ -23,17 +23,17 @@ public:
 };
 
 class QDestructionListener : public b2DestructionListener {
-public:
+ public:
   void SayGoodbye(b2Joint *joint);
   void SayGoodbye(b2Fixture *fixture);
 };
 
 class QItemSet : public SceneGraph::Item {
-private:
+ private:
   QWorld *m_world;
   std::unordered_set<QBody *> m_body;
 
-public:
+ public:
   QItemSet(QWorld *world);
   ~QItemSet();
 
@@ -48,7 +48,7 @@ public:
 };
 
 class QWorld : public SceneGraph::Item, public QOpenGLFunctions {
-private:
+ private:
   friend class QBody;
   friend class QFixture;
 
@@ -74,7 +74,7 @@ private:
   void updateVisibleBodies();
   void destroyBodies();
 
-protected:
+ protected:
   struct BodyFinder : public b2QueryCallback {
     std::vector<QBody *> m_foundBodies;
     bool ReportFixture(b2Fixture *fixture);
@@ -98,7 +98,7 @@ protected:
 
   virtual void releaseResource(QBody *);
 
-public:
+ public:
   explicit QWorld(SceneGraph::Item *parent = nullptr);
   ~QWorld();
 
@@ -158,4 +158,4 @@ public:
   void rayCast(b2RayCastCallback *raycast, QPointF p1, QPointF p2) const;
 };
 
-#endif // BOX2DWORLD_H
+#endif  // BOX2DWORLD_H

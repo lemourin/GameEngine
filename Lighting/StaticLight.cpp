@@ -1,10 +1,10 @@
 #include "StaticLight.hpp"
+#include <QJsonObject>
 #include "LightSystem.hpp"
 #include "QBox2D/Fixture/Box2DBox.hpp"
 #include "QBox2D/QWorld.hpp"
 #include "Utility/DisplayItem.hpp"
 #include "Utility/Utility.hpp"
-#include <QJsonObject>
 
 StaticLight::StaticLight(Item *parent)
     : Light(parent), m_dynamicShadows(), m_dynamicLight() {
@@ -30,8 +30,7 @@ void StaticLight::initialize(QWorld *w) {
 void StaticLight::destroyBody() {
   m_fixture.destroyFixture();
 
-  if (lightSystem())
-    lightSystem()->removeLight(this);
+  if (lightSystem()) lightSystem()->removeLight(this);
 
   Light::destroyBody();
 }

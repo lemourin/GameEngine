@@ -1,9 +1,9 @@
 #ifndef PARTICLESYSTEM_HPP
 #define PARTICLESYSTEM_HPP
-#include "SceneGraph/Item.hpp"
-#include "SceneGraph/Node.hpp"
-#include "SceneGraph/Material.hpp"
 #include "SceneGraph/Geometry.hpp"
+#include "SceneGraph/Item.hpp"
+#include "SceneGraph/Material.hpp"
+#include "SceneGraph/Node.hpp"
 #include "SceneGraph/ShaderSource.hpp"
 
 class LightSystem;

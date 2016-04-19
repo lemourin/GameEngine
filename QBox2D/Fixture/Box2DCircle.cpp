@@ -1,7 +1,7 @@
 #include "Box2DCircle.hpp"
+#include <QJsonObject>
 #include "Geometry/Circle.hpp"
 #include "Graphics/Primitives.hpp"
-#include <QJsonObject>
 
 Box2DCircle::Box2DCircle(Item* parent) : QFixture(parent), m_radius() {}
 

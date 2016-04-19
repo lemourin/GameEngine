@@ -1,7 +1,7 @@
 #include "AddRectangle.hpp"
 #include "AddBody.hpp"
-#include "QBox2D/Fixture/Box2DBox.hpp"
 #include "Graphics/Primitives.hpp"
+#include "QBox2D/Fixture/Box2DBox.hpp"
 
 AddRectangle::AddRectangle(AddBody *p)
     : AddFixture(p), m_state(), m_object(this) {}

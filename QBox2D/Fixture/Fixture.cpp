@@ -1,7 +1,7 @@
 #include "Fixture.hpp"
+#include <QJsonObject>
 #include "Graphics/TexturedItem.hpp"
 #include "Lighting/LightSystem.hpp"
-#include <QJsonObject>
 
 Fixture::Fixture(SceneGraph::Item* parent)
     : QFixture(parent), m_texture(), m_normalMap() {}

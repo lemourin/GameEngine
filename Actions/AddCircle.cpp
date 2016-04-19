@@ -1,10 +1,10 @@
 #include "AddCircle.hpp"
+#include <QMouseEvent>
 #include "AddBody.hpp"
-#include "Graphics/Primitives.hpp"
 #include "Geometry/Vector2d.hpp"
+#include "Graphics/Primitives.hpp"
 #include "QBox2D/Fixture/Box2DCircle.hpp"
 #include "QBox2D/QWorld.hpp"
-#include <QMouseEvent>
 
 AddCircle::AddCircle(AddBody* parent)
     : AddFixture(parent), m_stateChange(), m_state(), m_object(this) {}

@@ -1,10 +1,10 @@
 #include "Functions.hpp"
-#include "Edge.hpp"
+#include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
-#include <algorithm>
-#include <cassert>
+#include "Edge.hpp"
 
 Vector2d Geometry::normalizedToLength(Vector2d vec, float length) {
   float angle = atan2(vec.y, vec.x);

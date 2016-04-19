@@ -1,8 +1,8 @@
 #ifndef ADDRECTANGLE_HPP
 #define ADDRECTANGLE_HPP
 #include "AddFixture.hpp"
-#include "SceneGraph/Node.hpp"
 #include "Graphics/Primitives.hpp"
+#include "SceneGraph/Node.hpp"
 
 class AddBody;
 

@@ -1,8 +1,8 @@
 #include "QFixture.hpp"
-#include "QWorld.hpp"
-#include "QBody.hpp"
-#include "Utility/Utility.hpp"
 #include <QJsonObject>
+#include "QBody.hpp"
+#include "QWorld.hpp"
+#include "Utility/Utility.hpp"
 
 QFixture::QFixture(Item* parent)
     : SceneGraph::Item(parent),

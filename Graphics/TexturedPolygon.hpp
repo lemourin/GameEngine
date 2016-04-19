@@ -2,8 +2,8 @@
 #define TEXTUREDPOLYGON_HPP
 
 #include "SceneGraph/Geometry.hpp"
-#include "SceneGraph/Node.hpp"
 #include "SceneGraph/Material.hpp"
+#include "SceneGraph/Node.hpp"
 #include "TexturedItem.hpp"
 
 class TexturedPolygon : public TexturedItem {

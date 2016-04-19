@@ -1,6 +1,6 @@
 #include "Box2DChain.hpp"
-#include "Graphics/Primitives.hpp"
 #include <QJsonObject>
+#include "Graphics/Primitives.hpp"
 
 Box2DChain::Box2DChain(SceneGraph::Item* parent) : Box2DPolygon(parent) {}
 

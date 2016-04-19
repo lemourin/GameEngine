@@ -1,8 +1,8 @@
 #include "Box2DPolygon.hpp"
+#include <QJsonArray>
+#include <QJsonObject>
 #include "Graphics/Primitives.hpp"
 #include "Utility/Utility.hpp"
-#include <QJsonObject>
-#include <QJsonArray>
 
 Box2DPolygon::Box2DPolygon(SceneGraph::Item* parent)
     : Fixture(parent), m_texture(this), m_normalMap() {

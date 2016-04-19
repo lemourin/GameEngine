@@ -4,12 +4,12 @@
 #include "QBox2D/QBody.hpp"
 
 class QChain : public QBody {
-private:
+ private:
   std::vector<QPointF> m_vertices;
 
   void createChain();
 
-public:
+ public:
   QChain(SceneGraph::Item * = nullptr);
   ~QChain();
 
@@ -24,4 +24,4 @@ public:
   bool write(QJsonObject &) const;
 };
 
-#endif // QCHAIN_HPP
+#endif  // QCHAIN_HPP

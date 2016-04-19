@@ -1,6 +1,6 @@
 #include "Triangle.hpp"
-#include "Triangulate.hpp"
 #include <QPointF>
+#include "Triangulate.hpp"
 
 Triangle::Triangle() { m_vertices.resize(3); }
 

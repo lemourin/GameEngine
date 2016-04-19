@@ -1,9 +1,9 @@
 #include "Vector2d.hpp"
-#include "Edge.hpp"
-#include "Functions.hpp"
 #include <Box2D/Box2D.h>
 #include <QPointF>
 #include <QSize>
+#include "Edge.hpp"
+#include "Functions.hpp"
 const int BUF_SIZE = 100;
 
 Vector2d::Vector2d() : x(), y() {}
@@ -53,9 +53,9 @@ Vector2d operator*(const Vector2d& a, float b) {
   return Vector2d(a.x * b, a.y * b);
 }
 
-Vector2d Vector2d::operator+=(const Vector2d& a) { return * this = *this + a; }
+Vector2d Vector2d::operator+=(const Vector2d& a) { return *this = *this + a; }
 
-Vector2d Vector2d::operator-=(const Vector2d& a) { return * this = *this - a; }
+Vector2d Vector2d::operator-=(const Vector2d& a) { return *this = *this - a; }
 
 Vector2d operator*(float a, const Vector2d& b) { return b * a; }
 

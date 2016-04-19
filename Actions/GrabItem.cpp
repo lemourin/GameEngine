@@ -1,11 +1,11 @@
 #include "GrabItem.hpp"
-#include "QBox2D/QWorld.hpp"
-#include "QBox2D/QBody.hpp"
-#include "QBox2D/QFixture.hpp"
+#include "Geometry/Circle.hpp"
 #include "Geometry/Edge.hpp"
 #include "Geometry/Vector2d.hpp"
-#include "Geometry/Circle.hpp"
 #include "MapEditor.hpp"
+#include "QBox2D/QBody.hpp"
+#include "QBox2D/QFixture.hpp"
+#include "QBox2D/QWorld.hpp"
 
 GrabItem::GrabItem(MapEditor* parent)
     : SubAction(parent),

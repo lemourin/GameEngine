@@ -1,10 +1,14 @@
 #include "Light.hpp"
-#include "LightSystem.hpp"
 #include <QJsonObject>
+#include "LightSystem.hpp"
 
 Light::Light(SceneGraph::Item *parent)
-    : QBody(parent), m_attenuation(0.5, 0.01, 0.0025), m_radius(1),
-      m_renderFraction(2.5), m_z(1.0), m_lightSystem() {}
+    : QBody(parent),
+      m_attenuation(0.5, 0.01, 0.0025),
+      m_radius(1),
+      m_renderFraction(2.5),
+      m_z(1.0),
+      m_lightSystem() {}
 
 void Light::setAttenuation(QVector3D att) {
   m_attenuation = att;
@@ -88,8 +92,7 @@ bool Light::write(QJsonObject &obj) const {
 
 SceneGraph::Node *Light::synchronize(SceneGraph::Node *old) {
   Light::LightNode *node = static_cast<LightNode *>(old);
-  if (!node)
-    node = new LightNode;
+  if (!node) node = new LightNode;
 
   node->synchronize(this);
 

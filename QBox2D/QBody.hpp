@@ -1,13 +1,13 @@
 #ifndef QBODY_HPP
 #define QBODY_HPP
 
-#include <QQuickItem>
 #include <Box2D/Box2D.h>
-#include <queue>
+#include <QQuickItem>
 #include <functional>
-#include "Utility/List.hpp"
-#include "Utility/BaseItem.hpp"
+#include <queue>
 #include "Geometry/Circle.hpp"
+#include "Utility/BaseItem.hpp"
+#include "Utility/List.hpp"
 
 class QFixture;
 class QWorld;

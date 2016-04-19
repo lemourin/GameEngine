@@ -17,8 +17,7 @@ QBody::QBody(SceneGraph::Item *parent)
 QBody::~QBody() { destroyBody(); }
 
 void QBody::destroyBody() {
-  if (!body())
-    return;
+  if (!body()) return;
   world()->onBodyDestroyed(this);
 
   while (QFixture *f = firstFixture()) {
@@ -62,20 +61,17 @@ void QBody::removeFixture(QFixture *fixture) {
 
 void QBody::setLinearDamping(qreal linearDamping) {
   m_bodyDef.linearDamping = linearDamping;
-  if (body())
-    body()->SetLinearDamping(linearDamping);
+  if (body()) body()->SetLinearDamping(linearDamping);
 }
 
 void QBody::setAngularDamping(qreal angularDamping) {
   m_bodyDef.angularDamping = angularDamping;
-  if (body())
-    body()->SetAngularDamping(angularDamping);
+  if (body()) body()->SetAngularDamping(angularDamping);
 }
 
 void QBody::setGravityScale(qreal gravityScale) {
   m_bodyDef.gravityScale = gravityScale;
-  if (body())
-    body()->SetGravityScale(gravityScale);
+  if (body()) body()->SetGravityScale(gravityScale);
 }
 
 QBody::BodyType QBody::bodyType() const {
@@ -84,32 +80,27 @@ QBody::BodyType QBody::bodyType() const {
 
 void QBody::setBodyType(BodyType type) {
   m_bodyDef.type = static_cast<b2BodyType>(type);
-  if (body())
-    body()->SetType(static_cast<b2BodyType>(type));
+  if (body()) body()->SetType(static_cast<b2BodyType>(type));
 }
 
 void QBody::setBullet(bool bullet) {
   m_bodyDef.bullet = bullet;
-  if (body())
-    body()->SetBullet(bullet);
+  if (body()) body()->SetBullet(bullet);
 }
 
 void QBody::setSleepingAllowed(bool allowed) {
   m_bodyDef.allowSleep = allowed;
-  if (body())
-    body()->SetSleepingAllowed(allowed);
+  if (body()) body()->SetSleepingAllowed(allowed);
 }
 
 void QBody::setFixedRotation(bool fixedRotation) {
   m_bodyDef.fixedRotation = fixedRotation;
-  if (body())
-    body()->SetFixedRotation(fixedRotation);
+  if (body()) body()->SetFixedRotation(fixedRotation);
 }
 
 void QBody::setActive(bool active) {
   m_bodyDef.active = active;
-  if (body())
-    body()->SetActive(active);
+  if (body()) body()->SetActive(active);
 }
 
 QPointF QBody::linearVelocity() const {
@@ -119,27 +110,23 @@ QPointF QBody::linearVelocity() const {
 void QBody::setLinearVelocity(const QPointF &linearVelocity) {
   b2Vec2 vec(linearVelocity.x(), linearVelocity.y());
   m_bodyDef.linearVelocity = vec;
-  if (body())
-    body()->SetLinearVelocity(vec);
+  if (body()) body()->SetLinearVelocity(vec);
 }
 
 void QBody::setAngularVelocity(qreal velocity) {
   m_bodyDef.angularVelocity = velocity;
-  if (body())
-    body()->SetAngularVelocity(velocity);
+  if (body()) body()->SetAngularVelocity(velocity);
 }
 
 void QBody::addFixture(QFixture *f) {
   m_fixtureList.append(&f->m_node);
   f->setParent(this);
-  if (body())
-    f->initialize(this);
+  if (body()) f->initialize(this);
 }
 
-bool QBody::addFixture(const QJsonObject& obj, QFixture* fixture) {
+bool QBody::addFixture(const QJsonObject &obj, QFixture *fixture) {
   fixture->m_body = this;
-  if (!fixture->read(obj))
-    return false;
+  if (!fixture->read(obj)) return false;
   addFixture(fixture);
   return true;
 }
@@ -156,14 +143,12 @@ void QBody::setTransform(QPointF position, qreal rotation) {
 }
 
 void QBody::initialize(QWorld *w) {
-  if (body())
-    return;
+  if (body()) return;
 
   m_world = w;
   m_body = world()->world()->CreateBody(&m_bodyDef);
 
-  for (QFixture *f = firstFixture(); f; f = f->next())
-    f->initialize(this);
+  for (QFixture *f = firstFixture(); f; f = f->next()) f->initialize(this);
 
   w->onBodyAdded(this);
 }
@@ -171,26 +156,22 @@ void QBody::initialize(QWorld *w) {
 void QBody::enqueueFunction(std::function<void()> f) {
   assert(world());
 
-  if (m_work.empty())
-    world()->m_enqueued.push_back(this);
+  if (m_work.empty()) world()->m_enqueued.push_back(this);
 
   m_work.push(f);
 }
 
 void QBody::initializeLater(QWorld *w) {
-  if (body())
-    return;
+  if (body()) return;
 
-  if (m_work.empty())
-    w->m_enqueued.push_back(this);
+  if (m_work.empty()) w->m_enqueued.push_back(this);
 
   m_work.push(std::bind(
       static_cast<void (QBody::*)(QWorld *)>(&QBody::initialize), this, w));
 }
 
 void QBody::destroyLater() {
-  if (m_pendingDestroy || !body())
-    return;
+  if (m_pendingDestroy || !body()) return;
   m_pendingDestroy = true;
 
   assert(world());
@@ -199,8 +180,7 @@ void QBody::destroyLater() {
 
 bool QBody::initialize(const QJsonObject &obj, QWorld *world) {
   m_world = world;
-  if (!read(obj))
-    return false;
+  if (!read(obj)) return false;
   initialize(world);
   return true;
 }
@@ -242,8 +222,7 @@ bool QBody::write(QJsonObject &obj) const {
   for (QFixture *f = firstFixture(); f; f = f->next()) {
     QJsonObject object;
 
-    if (f->write(object))
-      array.append(object);
+    if (f->write(object)) array.append(object);
   }
 
   obj["fixtures"] = array;
@@ -292,8 +271,7 @@ void QBody::visibleChanged() { m_content.setVisible(visible()); }
 
 bool QBody::testPoint(const QPointF &point) const {
   for (const b2Fixture *f = body()->GetFixtureList(); f; f = f->GetNext())
-    if (f->TestPoint(b2Vec2(point.x(), point.y())))
-      return true;
+    if (f->TestPoint(b2Vec2(point.x(), point.y()))) return true;
   return false;
 }
 
@@ -318,8 +296,7 @@ bool QBody::testOverlap(const QRectF &rect) const {
 bool QBody::testOverlap(const QBody *other) const {
   QRectF box1 = boundingRect();
   QRectF box2 = other->boundingRect();
-  if (!box1.intersects(box2))
-    return false;
+  if (!box1.intersects(box2)) return false;
 
   const b2Fixture *f1 = body()->GetFixtureList();
   while (f1) {
@@ -346,13 +323,11 @@ void QBody::applyLinearImpulse(const QPointF &impulse, const QPointF &point) {
 }
 
 void QBody::applyTorque(qreal torque) {
-  if (body())
-    body()->ApplyTorque(torque, true);
+  if (body()) body()->ApplyTorque(torque, true);
 }
 
 void QBody::applyForce(const QPointF &force) {
-  if (body())
-    body()->ApplyForceToCenter(b2Vec2(force.x(), force.y()), true);
+  if (body()) body()->ApplyForceToCenter(b2Vec2(force.x(), force.y()), true);
 }
 
 QPointF QBody::worldCenter() const {

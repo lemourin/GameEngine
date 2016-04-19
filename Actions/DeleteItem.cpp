@@ -1,7 +1,7 @@
 #include "DeleteItem.hpp"
-#include "QBox2D/QWorld.hpp"
-#include "QBox2D/QBody.hpp"
 #include "MapEditor.hpp"
+#include "QBox2D/QBody.hpp"
+#include "QBox2D/QWorld.hpp"
 
 DeleteItem::DeleteItem(MapEditor* p) : SubAction(p), m_object(this) {}
 

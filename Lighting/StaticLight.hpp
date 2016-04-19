@@ -1,8 +1,8 @@
 #ifndef STATICLIGHT_HPP
 #define STATICLIGHT_HPP
 #include "Light.hpp"
-#include "QBox2D/QBody.hpp"
 #include "QBox2D/Fixture/Box2DBox.hpp"
+#include "QBox2D/QBody.hpp"
 
 class DynamicLight;
 

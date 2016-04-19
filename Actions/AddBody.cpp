@@ -1,11 +1,11 @@
 #include "AddBody.hpp"
-#include "AddPolygon.hpp"
 #include "AddCircle.hpp"
+#include "AddPolygon.hpp"
 #include "Graphics/Primitives.hpp"
+#include "MapEditor.hpp"
 #include "QBox2D/QBody.hpp"
 #include "QBox2D/QFixture.hpp"
 #include "QBox2D/QWorld.hpp"
-#include "MapEditor.hpp"
 
 AddBody::AddBody(MapEditor* p)
     : SubAction(p),

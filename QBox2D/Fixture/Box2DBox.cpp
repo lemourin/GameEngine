@@ -1,6 +1,7 @@
 #include "Box2DBox.hpp"
-#include "Utility/Utility.hpp"
+
 #include <QJsonObject>
+#include "Utility/Utility.hpp"
 
 Box2DBox::Box2DBox(Item* parent)
     : Fixture(parent), m_texturedRectangle(this), m_normalMapRectangle() {

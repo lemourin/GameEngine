@@ -1,7 +1,7 @@
 #include "BodyEdit.hpp"
-#include "QBox2D/QWorld.hpp"
-#include "QBox2D/QBody.hpp"
 #include "MapEditor.hpp"
+#include "QBox2D/QBody.hpp"
+#include "QBox2D/QWorld.hpp"
 #include "Utility/Utility.hpp"
 
 BodyEdit::BodyEdit(MapEditor* p)

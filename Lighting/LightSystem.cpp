@@ -1,10 +1,10 @@
 #include "LightSystem.hpp"
-#include "StaticLight.hpp"
-#include "QBox2D/QWorld.hpp"
-#include "Utility/Utility.hpp"
 #include <QJsonArray>
 #include <QJsonObject>
 #include <cassert>
+#include "QBox2D/QWorld.hpp"
+#include "StaticLight.hpp"
+#include "Utility/Utility.hpp"
 
 LightSystem::LightSystem(SceneGraph::Item* parent, QWorld* world)
     : SceneGraph::Item(parent),
@@ -91,9 +91,7 @@ void LightSystem::setResolution(QSize s) {
   lightTexture()->setTextureSize(m_resolution);
 }
 
-QWorld* LightSystem::world() const {
-  return m_world;
-}
+QWorld* LightSystem::world() const { return m_world; }
 
 void LightSystem::addLight(StaticLight* light) {
   m_light.push_back(light);

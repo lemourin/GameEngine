@@ -1,7 +1,7 @@
 #ifndef FILEACTION_HPP
 #define FILEACTION_HPP
-#include "SubAction.hpp"
 #include <memory>
+#include "SubAction.hpp"
 
 class MainAction;
 class FileAction;
@@ -9,10 +9,10 @@ class SaveMapAction;
 class LoadMapAction;
 
 class SaveMapActionObject : public ActionObject {
-private:
+ private:
   Q_OBJECT
 
-public:
+ public:
   SaveMapActionObject(SaveMapAction *);
 
   SaveMapAction *action() const;
@@ -21,23 +21,23 @@ public:
 };
 
 class SaveMapAction : public SubAction {
-private:
+ private:
   friend class SaveMapActionObject;
 
   SaveMapActionObject m_object;
-  FileAction* m_fileAction;
+  FileAction *m_fileAction;
 
-public:
+ public:
   SaveMapAction(FileAction *);
 
   inline QString name() const { return "SaveMap"; }
 };
 
 class LoadMapActionObject : public ActionObject {
-private:
+ private:
   Q_OBJECT
 
-public:
+ public:
   LoadMapActionObject(LoadMapAction *);
 
   LoadMapAction *action() const;
@@ -46,20 +46,20 @@ public:
 };
 
 class LoadMapAction : public SubAction {
-private:
+ private:
   friend class LoadMapActionObject;
 
   LoadMapActionObject m_object;
-  FileAction* m_fileAction;
+  FileAction *m_fileAction;
 
-public:
+ public:
   LoadMapAction(FileAction *);
 
   inline QString name() const { return "LoadMap"; }
 };
 
 class FileActionResolver {
-public:
+ public:
   virtual ~FileActionResolver();
 
   virtual void load(QString) const = 0;
@@ -67,13 +67,13 @@ public:
 };
 
 class FileAction : public SubAction {
-private:
+ private:
   ActionObject m_object;
   SaveMapAction m_saveMap;
   LoadMapAction m_loadMap;
   std::unique_ptr<FileActionResolver> m_resolver;
 
-public:
+ public:
   FileAction(MainAction *, std::unique_ptr<FileActionResolver>);
   ~FileAction();
 
@@ -86,4 +86,4 @@ public:
   inline QString name() const { return "FileAction"; }
 };
 
-#endif // FILEACTION_HPP
+#endif  // FILEACTION_HPP

@@ -14,8 +14,7 @@ void QContactListener::BeginContact(b2Contact *contact) {
   QFixture *fixtureA = QFixture::toQFixture(contact->GetFixtureA());
   QFixture *fixtureB = QFixture::toQFixture(contact->GetFixtureB());
 
-  if (!fixtureA || !fixtureB)
-    return;
+  if (!fixtureA || !fixtureB) return;
 
   fixtureA->body()->beginContact(fixtureB, contact);
   fixtureB->body()->beginContact(fixtureA, contact);
@@ -25,8 +24,7 @@ void QContactListener::EndContact(b2Contact *contact) {
   QFixture *fixtureA = QFixture::toQFixture(contact->GetFixtureA());
   QFixture *fixtureB = QFixture::toQFixture(contact->GetFixtureB());
 
-  if (!fixtureA || !fixtureB)
-    return;
+  if (!fixtureA || !fixtureB) return;
 
   fixtureA->body()->endContact(fixtureB, contact);
   fixtureB->body()->endContact(fixtureA, contact);
@@ -37,8 +35,7 @@ void QContactListener::PreSolve(b2Contact *contact,
   QFixture *fixtureA = QFixture::toQFixture(contact->GetFixtureA());
   QFixture *fixtureB = QFixture::toQFixture(contact->GetFixtureB());
 
-  if (!fixtureA || !fixtureB)
-    return;
+  if (!fixtureA || !fixtureB) return;
 
   fixtureA->body()->preSolve(fixtureB, contact, oldManifold);
   fixtureB->body()->preSolve(fixtureA, contact, oldManifold);
@@ -49,8 +46,7 @@ void QContactListener::PostSolve(b2Contact *contact,
   QFixture *fixtureA = QFixture::toQFixture(contact->GetFixtureA());
   QFixture *fixtureB = QFixture::toQFixture(contact->GetFixtureB());
 
-  if (!fixtureA || !fixtureB)
-    return;
+  if (!fixtureA || !fixtureB) return;
 
   fixtureA->body()->postSolve(fixtureB, contact, impulse);
   fixtureB->body()->postSolve(fixtureA, contact, impulse);
@@ -110,8 +106,7 @@ void QItemSet::write(QJsonObject &obj) const {
   QJsonArray array;
   for (QBody *body : m_body) {
     QJsonObject object;
-    if (body->write(object))
-      array.append(object);
+    if (body->write(object)) array.append(object);
   }
 
   obj["bodies"] = array;
@@ -137,19 +132,24 @@ void QItemSet::read(const QJsonObject &obj) {
 }
 
 QWorld::QWorld(SceneGraph::Item *parent)
-    : SceneGraph::Item(parent), m_running(false), m_locked(false),
-      m_timeStep(1.0f / 60.0f), m_velocityIterations(10),
-      m_positionIterations(10), m_frameTime(1000 / 60), m_world(b2Vec2(0, 0)),
-      m_groundBody(this), m_timer(-1), m_itemSet(this) {
+    : SceneGraph::Item(parent),
+      m_running(false),
+      m_locked(false),
+      m_timeStep(1.0f / 60.0f),
+      m_velocityIterations(10),
+      m_positionIterations(10),
+      m_frameTime(1000 / 60),
+      m_world(b2Vec2(0, 0)),
+      m_groundBody(this),
+      m_timer(-1),
+      m_itemSet(this) {
   world()->SetContactListener(&m_contactListener);
   world()->SetDestructionListener(&m_destructionListener);
 
   m_groundBody.initialize(this);
 }
 
-QWorld::~QWorld() {
-  destroyBodies();
-}
+QWorld::~QWorld() { destroyBodies(); }
 
 void QWorld::initialize() { setRunning(true); }
 
@@ -163,8 +163,7 @@ void QWorld::destroyBodies() {
 }
 
 void QWorld::setRunning(bool running) {
-  if (m_running == running)
-    return;
+  if (m_running == running) return;
 
   m_running = running;
 
@@ -196,8 +195,7 @@ void QWorld::releaseResource(QBody *body) {
 std::vector<QBody *> QWorld::bodies() {
   std::vector<QBody *> result;
   for (b2Body *body = world()->GetBodyList(); body; body = body->GetNext())
-    if (QBody::toQBody(body))
-      result.push_back(QBody::toQBody(body));
+    if (QBody::toQBody(body)) result.push_back(QBody::toQBody(body));
   return result;
 }
 
@@ -205,14 +203,12 @@ std::vector<const QBody *> QWorld::bodies() const {
   std::vector<const QBody *> result;
   for (const b2Body *body = world()->GetBodyList(); body;
        body = body->GetNext())
-    if (QBody::toQBody(body))
-      result.push_back(QBody::toQBody(body));
+    if (QBody::toQBody(body)) result.push_back(QBody::toQBody(body));
   return result;
 }
 
 void QWorld::step() {
-  while (!m_destroyed.empty())
-    destroyBody(m_destroyed.back());
+  while (!m_destroyed.empty()) destroyBody(m_destroyed.back());
 
   m_locked = true;
 
@@ -255,8 +251,7 @@ void QWorld::step() {
 }
 
 void QWorld::timerEvent(QTimerEvent *event) {
-  if (event->timerId() == m_timer)
-    step();
+  if (event->timerId() == m_timer) step();
 
   SceneGraph::Item::timerEvent(event);
 }
@@ -283,12 +278,10 @@ QBody *QWorld::bodyUnderPoint(const QPointF &p,
     bool hasSensor = false;
     for (QFixture *f = body->firstFixture(); f; f = f->next()) {
       hasSensor |= f->isSensor();
-      if (hasSensor)
-        break;
+      if (hasSensor) break;
     }
 
-    if (!hasSensor && body->testPoint(p) && (!ok || ok(body)))
-      return body;
+    if (!hasSensor && body->testPoint(p) && (!ok || ok(body))) return body;
   }
   return nullptr;
 }
@@ -320,29 +313,21 @@ void QWorld::rayCast(b2RayCastCallback *raycast, QPointF p1, QPointF p2) const {
   world()->RayCast(raycast, b2Vec2(p1.x(), p1.y()), b2Vec2(p2.x(), p2.y()));
 }
 
-void QWorld::read(const QJsonObject& obj) {
-  m_itemSet.read(obj);
-}
+void QWorld::read(const QJsonObject &obj) { m_itemSet.read(obj); }
 
-void QWorld::write(QJsonObject& obj) const {
-  m_itemSet.write(obj);
-}
-
+void QWorld::write(QJsonObject &obj) const { m_itemSet.write(obj); }
 
 void QWorld::onBodyDestroyed(QBody *body) {
   assert(locked() == false);
 
   auto it = std::find(m_visibleBodies.begin(), m_visibleBodies.end(), body);
-  if (it != m_visibleBodies.end())
-    m_visibleBodies.erase(it);
+  if (it != m_visibleBodies.end()) m_visibleBodies.erase(it);
 
   it = std::find(m_enqueued.begin(), m_enqueued.end(), body);
-  if (it != m_enqueued.end())
-    m_enqueued.erase(it);
+  if (it != m_enqueued.end()) m_enqueued.erase(it);
 
   it = std::find(m_destroyed.begin(), m_destroyed.end(), body);
-  if (it != m_destroyed.end())
-    m_destroyed.erase(it);
+  if (it != m_destroyed.end()) m_destroyed.erase(it);
 }
 
 void QWorld::onBodyAdded(QBody *) {}

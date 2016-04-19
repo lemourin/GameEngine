@@ -1,10 +1,10 @@
 #ifndef ADDBODY_HPP
 #define ADDBODY_HPP
-#include "SubAction.hpp"
-#include "AddPolygon.hpp"
 #include "AddCircle.hpp"
+#include "AddPolygon.hpp"
 #include "AddRectangle.hpp"
 #include "QBox2D/QBody.hpp"
+#include "SubAction.hpp"
 
 class AddBody : public SubAction {
  private:

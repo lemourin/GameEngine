@@ -1,13 +1,13 @@
 #ifndef LIGHTBLENDER_HPP
 #define LIGHTBLENDER_HPP
+#include <QColor>
+#include <QOpenGLFramebufferObject>
+#include <QOpenGLFunctions>
+#include "SceneGraph/Geometry.hpp"
+#include "SceneGraph/Material.hpp"
 #include "SceneGraph/Node.hpp"
 #include "SceneGraph/Shader.hpp"
-#include "SceneGraph/Material.hpp"
-#include "SceneGraph/Geometry.hpp"
 #include "SceneGraph/ShaderSource.hpp"
-#include <QColor>
-#include <QOpenGLFunctions>
-#include <QOpenGLFramebufferObject>
 
 class LightSystem;
 

@@ -1,4 +1,8 @@
 #include "QChain.hpp"
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QPainterPath>
+#include <QPolygonF>
 #include "Geometry/Circle.hpp"
 #include "Geometry/Functions.hpp"
 #include "Geometry/Vector2d.hpp"
@@ -9,10 +13,6 @@
 #include "QBox2D/QFixture.hpp"
 #include "QBox2D/QWorld.hpp"
 #include "Utility/Utility.hpp"
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QPainterPath>
-#include <QPolygonF>
 
 static b2Vec2 tob2Vec2(QPointF p) { return b2Vec2(p.x(), p.y()); }
 
@@ -26,8 +26,7 @@ void QChain::setVertices(const std::vector<QPointF> &v) {
 }
 
 void QChain::cutCircle(Circle circle) {
-  if (m_vertices.size() == 0)
-    return;
+  if (m_vertices.size() == 0) return;
   circle.setCenter(circle.pos());
 
   QPainterPath cr;
@@ -35,13 +34,11 @@ void QChain::cutCircle(Circle circle) {
                 2 * circle.r);
 
   QPolygonF polygon;
-  for (QPointF p : m_vertices)
-    polygon.append(p);
+  for (QPointF p : m_vertices) polygon.append(p);
   QPainterPath chain;
   chain.addPolygon(polygon);
 
-  if (!chain.intersects(cr))
-    return;
+  if (!chain.intersects(cr)) return;
 
   chain = chain.subtracted(cr);
 

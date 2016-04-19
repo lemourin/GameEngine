@@ -1,10 +1,10 @@
 #ifndef LIGHTMATERIAL_HPP
 #define LIGHTMATERIAL_HPP
+#include <QColor>
+#include <QOpenGLFunctions>
 #include "SceneGraph/Material.hpp"
 #include "SceneGraph/Renderer.hpp"
 #include "SceneGraph/ShaderSource.hpp"
-#include <QOpenGLFunctions>
-#include <QColor>
 
 class LightMaterial : public SceneGraph::Material {
  private:

@@ -7,7 +7,7 @@ class Action;
 class SubAction;
 
 class Callback {
-public:
+ public:
   virtual ~Callback() {}
 
   virtual void onTriggered() = 0;

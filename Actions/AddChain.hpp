@@ -1,9 +1,9 @@
 #ifndef ADDCHAIN_HPP
 #define ADDCHAIN_HPP
-#include "SubAction.hpp"
-#include "SceneGraph/Node.hpp"
-#include "SceneGraph/Material.hpp"
 #include "SceneGraph/Geometry.hpp"
+#include "SceneGraph/Material.hpp"
+#include "SceneGraph/Node.hpp"
+#include "SubAction.hpp"
 
 class AddChain : public SubAction {
  private:

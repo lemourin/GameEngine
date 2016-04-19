@@ -2,10 +2,10 @@
 #define LIGHTSYSTEM_HPP
 
 #include <unordered_set>
-#include "SceneGraph/ShaderSource.hpp"
+#include "DynamicLight.hpp"
 #include "EnlightedItems.hpp"
 #include "LightBlender.hpp"
-#include "DynamicLight.hpp"
+#include "SceneGraph/ShaderSource.hpp"
 
 class StaticLight;
 class DisplayItem;

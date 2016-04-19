@@ -7,14 +7,14 @@
 class QWorld;
 
 class MainAction : public Action {
-private:
+ private:
   MapEditor m_mapEditor;
   FileAction m_fileAction;
 
-protected:
+ protected:
   void subActionEnabledChanged(SubAction *);
 
-public:
+ public:
   MainAction(QWorld *, std::unique_ptr<FileActionResolver>,
              std::unique_ptr<MapEditorCallback> mapEditorCallback);
   ~MainAction();
@@ -23,4 +23,4 @@ public:
   inline FileAction *fileAction() { return &m_fileAction; }
 };
 
-#endif // MAINACTION_HPP
+#endif  // MAINACTION_HPP

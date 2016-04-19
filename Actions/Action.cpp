@@ -1,6 +1,6 @@
 #include "Action.hpp"
-#include "Utility/Utility.hpp"
 #include "SubAction.hpp"
+#include "Utility/Utility.hpp"
 
 Action::Action(SceneGraph::Item* parent, QWorld* w)
     : SceneGraph::Item(parent),

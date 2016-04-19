@@ -1,8 +1,8 @@
 #include "Circle.hpp"
-#include "Vector2d.hpp"
-#include "Edge.hpp"
-#include <cstdio>
 #include <Box2D/Box2D.h>
+#include <cstdio>
+#include "Edge.hpp"
+#include "Vector2d.hpp"
 
 Circle::Circle() : x(), y(), r() {}
 

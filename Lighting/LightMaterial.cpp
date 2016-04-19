@@ -79,8 +79,7 @@ std::vector<std::string> LightMaterial::Shader::attribute() const {
 void LightMaterial::Shader::updateState(const SceneGraph::Material* mat,
                                         const SceneGraph::RenderState& state) {
   const LightMaterial* material = static_cast<const LightMaterial*>(mat);
-  if (!material->normalMap() || !material->normalMap()->texture())
-    return;
+  if (!material->normalMap() || !material->normalMap()->texture()) return;
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, material->normalMap()->texture()->texture());

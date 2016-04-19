@@ -1,11 +1,11 @@
 #ifndef QFIXTURE_HPP
 #define QFIXTURE_HPP
 
-#include <QQuickItem>
-#include <QFlags>
 #include <Box2D/Box2D.h>
-#include "Utility/List.hpp"
+#include <QFlags>
+#include <QQuickItem>
 #include "SceneGraph/Item.hpp"
+#include "Utility/List.hpp"
 
 class b2Fixture;
 struct b2FixtureDef;

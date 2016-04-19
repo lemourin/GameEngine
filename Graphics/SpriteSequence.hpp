@@ -2,8 +2,8 @@
 #define SPRITESEQUENCE_HPP
 
 #include <unordered_map>
-#include "SceneGraph/Item.hpp"
 #include "Graphics/TexturedRectangle.hpp"
+#include "SceneGraph/Item.hpp"
 
 struct SpriteData {
   std::string m_image;

@@ -10,14 +10,14 @@
 class MainAction;
 
 class MapEditorCallback : public Callback {
-public:
+ public:
   bool m_enabled;
 
   MapEditorCallback();
 };
 
 class MapEditor : public SubAction {
-private:
+ private:
   AddChain m_addChain;
   AddBody m_addBody;
   GrabItem m_grabItem;
@@ -29,10 +29,10 @@ private:
 
   std::unique_ptr<MapEditorCallback> m_callback;
 
-protected:
+ protected:
   void enabledChanged();
 
-public:
+ public:
   MapEditor(MainAction *, std::unique_ptr<MapEditorCallback> call);
 
   inline AddChain *addChain() { return &m_addChain; }
@@ -44,4 +44,4 @@ public:
   inline QString name() const { return "MapEditor"; }
 };
 
-#endif // MAPEDITOR_HPP
+#endif  // MAPEDITOR_HPP

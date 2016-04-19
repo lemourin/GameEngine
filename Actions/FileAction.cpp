@@ -3,8 +3,11 @@
 
 FileAction::FileAction(MainAction *action,
                        std::unique_ptr<FileActionResolver> resolver)
-    : SubAction(action, action->world()), m_object(this), m_saveMap(this),
-      m_loadMap(this), m_resolver(std::move(resolver)) {}
+    : SubAction(action, action->world()),
+      m_object(this),
+      m_saveMap(this),
+      m_loadMap(this),
+      m_resolver(std::move(resolver)) {}
 
 FileAction::~FileAction() {}
 
@@ -24,8 +27,9 @@ void SaveMapActionObject::dump(QString path) {
 }
 
 SaveMapAction::SaveMapAction(FileAction *action)
-    : SubAction(action, action->world()), m_object(this), m_fileAction(action) {
-}
+    : SubAction(action, action->world()),
+      m_object(this),
+      m_fileAction(action) {}
 
 LoadMapActionObject::LoadMapActionObject(LoadMapAction *action)
     : ActionObject(action) {}
@@ -40,7 +44,8 @@ void LoadMapActionObject::load(QString path) {
 }
 
 LoadMapAction::LoadMapAction(FileAction *action)
-    : SubAction(action, action->world()), m_object(this), m_fileAction(action) {
-}
+    : SubAction(action, action->world()),
+      m_object(this),
+      m_fileAction(action) {}
 
 FileActionResolver::~FileActionResolver() {}

@@ -1,9 +1,9 @@
 #ifndef EDGE_HPP
 #define EDGE_HPP
-#include "Vector2d.hpp"
 #include <algorithm>
-#include <cstdio>
 #include <cmath>
+#include <cstdio>
+#include "Vector2d.hpp"
 
 class Circle;
 

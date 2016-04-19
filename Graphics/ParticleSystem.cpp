@@ -1,9 +1,9 @@
 #include "ParticleSystem.hpp"
-#include "Geometry/Circle.hpp"
-#include "SceneGraph/Renderer.hpp"
-#include "Lighting/LightSystem.hpp"
-#include "Utility/Utility.hpp"
 #include <cassert>
+#include "Geometry/Circle.hpp"
+#include "Lighting/LightSystem.hpp"
+#include "SceneGraph/Renderer.hpp"
+#include "Utility/Utility.hpp"
 
 ParticleSystem::ParticleSystem(Item* parent)
     : SceneGraph::Item(parent), m_time(), m_lightSystem() {}
@@ -175,8 +175,7 @@ void ParticleMaterial::ParticleShader::updateState(
   const ParticleMaterial* m = static_cast<const ParticleMaterial*>(t);
   program()->setUniformValue(m_matrix, state.matrix());
 
-  if (!m->normalMap() || !m->normalMap()->texture())
-    return;
+  if (!m->normalMap() || !m->normalMap()->texture()) return;
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, m->normalMap()->texture()->texture());

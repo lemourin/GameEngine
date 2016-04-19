@@ -1,6 +1,6 @@
 #include "Edge.hpp"
-#include "Functions.hpp"
 #include "Circle.hpp"
+#include "Functions.hpp"
 typedef long double LD;
 
 using std::max;

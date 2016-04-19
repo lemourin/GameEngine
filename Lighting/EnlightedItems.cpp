@@ -1,14 +1,13 @@
 #include "EnlightedItems.hpp"
-#include "LightSystem.hpp"
-#include "Light.hpp"
-#include "QBox2D/QWorld.hpp"
-#include "QBox2D/QFixture.hpp"
-#include "StaticLight.hpp"
 #include <cassert>
+#include "Light.hpp"
+#include "LightSystem.hpp"
+#include "QBox2D/QFixture.hpp"
+#include "QBox2D/QWorld.hpp"
+#include "StaticLight.hpp"
 
 EnlightedItems::EnlightedItems(LightSystem* system, SceneGraph::Item* parent)
-    : SceneGraph::Item(parent), m_lightSystem(system), m_state() {
-}
+    : SceneGraph::Item(parent), m_lightSystem(system), m_state() {}
 
 void EnlightedItems::clear() { m_state |= Reset; }
 

@@ -1,10 +1,10 @@
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
-#include "SceneGraph/Geometry.hpp"
-#include "SceneGraph/Node.hpp"
-#include "SceneGraph/Material.hpp"
 #include <QPointF>
 #include <vector>
+#include "SceneGraph/Geometry.hpp"
+#include "SceneGraph/Material.hpp"
+#include "SceneGraph/Node.hpp"
 
 class Circle;
 

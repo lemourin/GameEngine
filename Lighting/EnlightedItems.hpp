@@ -1,11 +1,11 @@
 #ifndef ENLIGHTEDITEMS_HPP
 #define ENLIGHTEDITEMS_HPP
 
+#include <unordered_map>
 #include "LightMaterial.hpp"
 #include "SceneGraph/Geometry.hpp"
 #include "SceneGraph/Item.hpp"
 #include "Utility/Utility.hpp"
-#include <unordered_map>
 
 class LightSystem;
 class QFixture;
@@ -13,14 +13,14 @@ class Light;
 class QWorld;
 
 class EnlightedNode : public SceneGraph::TransformNode {
-private:
+ private:
   SceneGraph::GeometryNode m_geometryNode;
   LightMaterial m_material;
 
   void updateMaterial(Light *);
   void updateMatrix(QFixture *);
 
-public:
+ public:
   EnlightedNode();
 
   void update(QFixture *, Light *);
@@ -28,7 +28,7 @@ public:
 };
 
 class EnlightedItems : public SceneGraph::Item {
-private:
+ private:
   friend class LightSystem;
 
   LightSystem *m_lightSystem;
@@ -39,9 +39,9 @@ private:
     Reset = 1 << 0,
   };
 
-protected:
+ protected:
   class Node : public SceneGraph::Node {
-  private:
+   private:
     struct Vertex {
       float x, y;
     };
@@ -49,7 +49,7 @@ protected:
     std::unordered_map<void *, SceneGraph::Geometry *> m_data;
     std::vector<EnlightedNode *> m_node;
 
-  public:
+   public:
     Node();
     ~Node();
 
@@ -63,7 +63,7 @@ protected:
   SceneGraph::Node *synchronize(SceneGraph::Node *old);
   void onFixtureDestroyed(QFixture *);
 
-public:
+ public:
   explicit EnlightedItems(LightSystem *, SceneGraph::Item *);
 
   void clear();
@@ -72,4 +72,4 @@ public:
   QWorld *world() const;
 };
 
-#endif // ENLIGHTEDITEMS_HPP
+#endif  // ENLIGHTEDITEMS_HPP

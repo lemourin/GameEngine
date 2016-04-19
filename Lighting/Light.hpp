@@ -1,10 +1,10 @@
 #ifndef LIGHT_HPP
 #define LIGHT_HPP
 
-#include "QBox2D/QBody.hpp"
 #include "LightMaterial.hpp"
-#include "SceneGraph/Node.hpp"
+#include "QBox2D/QBody.hpp"
 #include "SceneGraph/Geometry.hpp"
+#include "SceneGraph/Node.hpp"
 
 class LightSystem;
 
