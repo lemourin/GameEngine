@@ -34,18 +34,19 @@ void LightSystem::read(const QJsonObject& obj) {
   for (int i = 0; i < array.size(); i++) {
     QJsonObject lightData = array[i].toObject();
 
-    StaticLight* light = new StaticLight(world());
+    auto light = std::make_unique<StaticLight>(world());
     light->setLightSystem(this);
     light->read(lightData);
     light->initialize(world());
 
-    m_loadedLights.insert(light);
+    m_loadedLights[light.get()] = std::move(light);
   }
 }
 
 void LightSystem::write(QJsonObject& obj) const {
   QJsonArray array;
-  for (StaticLight* light : m_loadedLights) {
+  for (auto& p : m_loadedLights) {
+    StaticLight* light = p.first;
     QJsonObject object;
     if (light->write(object)) {
       array.append(object);
@@ -70,9 +71,9 @@ void LightSystem::initialize() {
 }
 
 void LightSystem::clear() {
-  while (!m_loadedLights.empty()) delete *m_loadedLights.begin();
-
   m_enlightedItems.clear();
+  while (!m_loadedLights.empty())
+    removeLight(m_loadedLights.begin()->first);
 }
 
 void LightSystem::setSize(QSizeF s) {

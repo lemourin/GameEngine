@@ -10,7 +10,9 @@ StaticLight::StaticLight(Item *parent)
     : Light(parent), m_dynamicShadows(), m_dynamicLight() {
 }
 
-StaticLight::~StaticLight() { destroyBody(); }
+StaticLight::~StaticLight() {
+  destroyBody();
+}
 
 void StaticLight::initialize(QWorld *w) {
   auto fixture = std::make_unique<Box2DBox>();

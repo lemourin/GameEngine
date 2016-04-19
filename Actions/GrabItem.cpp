@@ -25,7 +25,7 @@ bool GrabItem::pickItem(QPointF point) {
 
   if (!m_grabbedBody) return false;
 
-  m_mouseJoint = new QMouseJoint(m_grabbedBody);
+  m_mouseJoint = std::make_unique<QMouseJoint>(m_grabbedBody);
   m_mouseJoint->setMaxForce(1000 * m_grabbedBody->body()->GetMass());
   m_mouseJoint->setTarget(point);
   m_mouseJoint->initialize();
@@ -49,8 +49,6 @@ void GrabItem::reset() {
 }
 
 void GrabItem::destroyJoint() {
-  delete m_mouseJoint;
-
   m_mouseJoint = nullptr;
   m_grabbedBody = nullptr;
 }

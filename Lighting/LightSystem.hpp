@@ -33,7 +33,7 @@ class LightSystem : public SceneGraph::Item {
   std::vector<DynamicLight*> m_unusedLight;
   std::vector<StaticLight*> m_light;
   std::unordered_set<StaticLight*> m_visibleLights;
-  std::unordered_set<StaticLight*> m_loadedLights;
+  std::unordered_map<StaticLight*, std::unique_ptr<StaticLight>> m_loadedLights;
 
   void addLight(StaticLight*);
   void removeLight(StaticLight*);

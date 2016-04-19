@@ -32,7 +32,7 @@ class GrabItem : public SubAction {
  private:
   friend class World;
 
-  QMouseJoint* m_mouseJoint;
+  std::unique_ptr<QMouseJoint> m_mouseJoint;
   QBody* m_grabbedBody;
   bool m_pressed;
 
