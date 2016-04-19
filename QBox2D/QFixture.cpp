@@ -113,13 +113,11 @@ bool QFixture::read(const QJsonObject& obj) {
 void QFixture::initialize(QBody* item) {
   m_body = item;
 
-  b2Shape* shape = createShape();
+  auto shape = std::move(createShape());
 
-  m_fixtureDef.shape = shape;
+  m_fixtureDef.shape = shape.get();
   m_fixture = item->body()->CreateFixture(&m_fixtureDef);
   m_fixture->SetUserData(this);
-
-  delete shape;
 
   m_content.setParent(item->content());
 

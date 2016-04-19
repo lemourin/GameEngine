@@ -10,7 +10,9 @@ std::vector<QPointF> Box2DEdge::vertices() const {
   return {p1, p2};
 }
 
-b2Shape* Box2DEdge::createShape() const { return new b2EdgeShape(m_edgeShape); }
+std::unique_ptr<b2Shape> Box2DEdge::createShape() const {
+  return std::make_unique<b2EdgeShape>(m_edgeShape);
+}
 
 SceneGraph::Node* Box2DEdge::synchronize(SceneGraph::Node* old) {
   EdgeNode* node = static_cast<EdgeNode*>(old);

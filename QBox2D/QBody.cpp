@@ -20,9 +20,9 @@ void QBody::destroyBody() {
   if (!body()) return;
   world()->onBodyDestroyed(this);
 
-  while (firstFixture()) {
-    firstFixture()->destroyFixture();
-    releaseResource(firstFixture());
+  while (QFixture *f = firstFixture()) {
+    f->destroyFixture();
+    releaseResource(f);
   }
 
   body()->SetUserData(nullptr);
@@ -251,7 +251,7 @@ void QBody::fixtureAdded(QFixture *f) { world()->onFixtureAdded(f); }
 
 void QBody::fixtureDestroyed(QFixture *f) { world()->onFixtureDestroyed(f); }
 
-void QBody::releaseResource(QFixture *) {}
+void QBody::releaseResource(QFixture *f) { f->m_node.data().reset(); }
 
 QBody *QBody::toQBody(b2Body *body) {
   return static_cast<QBody *>(body->GetUserData());

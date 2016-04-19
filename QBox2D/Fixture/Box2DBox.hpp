@@ -11,7 +11,7 @@ class Box2DBox : public Fixture {
   TexturedRectangle m_normalMapRectangle;
 
  protected:
-  b2Shape* createShape() const;
+  std::unique_ptr<b2Shape> createShape() const;
 
  public:
   explicit Box2DBox(SceneGraph::Item* = nullptr);

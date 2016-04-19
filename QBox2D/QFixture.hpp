@@ -31,7 +31,7 @@ class QFixture : public SceneGraph::Item {
 
  protected:
   virtual void initialize(QBody* item);
-  virtual b2Shape* createShape() const = 0;
+  virtual std::unique_ptr<b2Shape> createShape() const = 0;
   virtual bool read(const QJsonObject&);
 
   void matrixChanged();

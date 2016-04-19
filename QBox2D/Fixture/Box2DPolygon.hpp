@@ -13,7 +13,7 @@ class Box2DPolygon : public Fixture {
   TexturedConvexPolygon m_normalMap;
 
  protected:
-  b2Shape* createShape() const;
+  std::unique_ptr<b2Shape> createShape() const;
   SceneGraph::Node* synchronize(SceneGraph::Node*);
 
  public:

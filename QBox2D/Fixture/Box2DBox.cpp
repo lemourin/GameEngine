@@ -46,7 +46,7 @@ bool Box2DBox::write(QJsonObject& obj) const {
   return true;
 }
 
-b2Shape* Box2DBox::createShape() const {
+std::unique_ptr<b2Shape> Box2DBox::createShape() const {
   b2Vec2 vertices[4];
   vertices[0].Set(position().x(), position().y());
   vertices[1].Set(position().x() + size().width(), position().y());
@@ -54,7 +54,7 @@ b2Shape* Box2DBox::createShape() const {
                   position().y() + size().height());
   vertices[3].Set(position().x(), position().y() + size().height());
 
-  b2PolygonShape* shape = new b2PolygonShape;
+  auto shape = std::make_unique<b2PolygonShape>();
   shape->Set(vertices, 4);
 
   return shape;

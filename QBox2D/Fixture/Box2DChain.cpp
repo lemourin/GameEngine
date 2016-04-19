@@ -10,16 +10,14 @@ bool Box2DChain::write(QJsonObject& obj) const {
   return true;
 }
 
-b2Shape* Box2DChain::createShape() const {
+std::unique_ptr<b2Shape> Box2DChain::createShape() const {
   int vertexCount = m_vertices.size() - 1;
 
-  b2ChainShape* chainShape = new b2ChainShape;
-  b2Vec2* vertices = new b2Vec2[vertexCount];
+  auto chainShape = std::make_unique<b2ChainShape>();
+  std::vector<b2Vec2> vertices(vertexCount);
   for (int i = 0; i < vertexCount; i++)
     vertices[i].Set(m_vertices[i].x(), m_vertices[i].y());
-  chainShape->CreateLoop(vertices, vertexCount);
-
-  delete[] vertices;
+  chainShape->CreateLoop(vertices.data(), vertexCount);
 
   return chainShape;
 }

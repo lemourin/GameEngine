@@ -25,8 +25,8 @@ bool Box2DCircle::write(QJsonObject& obj) const {
   return true;
 }
 
-b2Shape* Box2DCircle::createShape() const {
-  b2CircleShape* shape = new b2CircleShape;
+std::unique_ptr<b2Shape> Box2DCircle::createShape() const {
+  auto shape = std::make_unique<b2CircleShape>();
   shape->m_radius = m_radius;
   shape->m_p.Set(position().x(), position().y());
 

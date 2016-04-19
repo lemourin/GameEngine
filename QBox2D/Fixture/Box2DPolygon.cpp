@@ -52,18 +52,16 @@ bool Box2DPolygon::write(QJsonObject& obj) const {
   return true;
 }
 
-b2Shape* Box2DPolygon::createShape() const {
+std::unique_ptr<b2Shape> Box2DPolygon::createShape() const {
   int vertexCount = m_vertices.size() - 1;
   assert(vertexCount >= 3 && vertexCount <= b2_maxPolygonVertices);
 
-  b2Vec2* vertices = new b2Vec2[vertexCount];
+  std::vector<b2Vec2> vertices(vertexCount);
   for (int i = 0; i < vertexCount; i++)
     vertices[i].Set(m_vertices[i].x(), m_vertices[i].y());
 
-  b2PolygonShape* shape = new b2PolygonShape;
-  shape->Set(vertices, vertexCount);
-
-  delete[] vertices;
+  auto shape = std::make_unique<b2PolygonShape>();
+  shape->Set(vertices.data(), vertexCount);
 
   return shape;
 }

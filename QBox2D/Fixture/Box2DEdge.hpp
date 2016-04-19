@@ -8,7 +8,7 @@ class Box2DEdge : public QFixture {
   b2EdgeShape m_edgeShape;
 
  protected:
-  b2Shape* createShape() const;
+  std::unique_ptr<b2Shape> createShape() const;
   SceneGraph::Node* synchronize(SceneGraph::Node*);
 
  public:

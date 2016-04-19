@@ -8,7 +8,7 @@ class Box2DCircle : public QFixture {
   float m_radius;
 
  protected:
-  b2Shape* createShape() const;
+  std::unique_ptr<b2Shape> createShape() const;
   SceneGraph::Node* synchronize(SceneGraph::Node*);
 
  public:
