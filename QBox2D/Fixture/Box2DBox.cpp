@@ -54,8 +54,8 @@ std::unique_ptr<b2Shape> Box2DBox::createShape() const {
                   position().y() + size().height());
   vertices[3].Set(position().x(), position().y() + size().height());
 
-  auto shape = std::make_unique<b2PolygonShape>();
-  shape->Set(vertices, 4);
+  std::unique_ptr<b2Shape> shape = std::make_unique<b2PolygonShape>();
+  static_cast<b2PolygonShape*>(shape.get())->Set(vertices, 4);
 
   return shape;
 }

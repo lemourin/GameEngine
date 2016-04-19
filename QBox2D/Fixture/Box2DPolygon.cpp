@@ -60,8 +60,8 @@ std::unique_ptr<b2Shape> Box2DPolygon::createShape() const {
   for (int i = 0; i < vertexCount; i++)
     vertices[i].Set(m_vertices[i].x(), m_vertices[i].y());
 
-  auto shape = std::make_unique<b2PolygonShape>();
-  shape->Set(vertices.data(), vertexCount);
+  std::unique_ptr<b2Shape> shape = std::make_unique<b2PolygonShape>();
+  static_cast<b2PolygonShape*>(shape.get())->Set(vertices.data(), vertexCount);
 
   return shape;
 }

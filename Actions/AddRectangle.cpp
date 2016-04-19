@@ -13,7 +13,8 @@ void AddRectangle::reset() {
 }
 
 std::unique_ptr<QFixture> AddRectangle::fixture() const {
-  auto box = std::make_unique<Box2DBox>();
+  std::unique_ptr<QFixture> fixture = std::make_unique<Box2DBox>();
+  Box2DBox* box = static_cast<Box2DBox*>(fixture.get());
   box->setPosition(
       QPointF(std::min(m_p1.x(), m_p2.x()), std::min(m_p1.y(), m_p2.y())));
 
@@ -22,7 +23,7 @@ std::unique_ptr<QFixture> AddRectangle::fixture() const {
 
   box->setTextureSource(":/resources/crate.jpg");
 
-  return box;
+  return fixture;
 }
 
 void AddRectangle::mousePressEvent(QMouseEvent *) {}

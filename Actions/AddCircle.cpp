@@ -10,11 +10,12 @@ AddCircle::AddCircle(AddBody* parent)
     : AddFixture(parent), m_stateChange(), m_state(), m_object(this) {}
 
 std::unique_ptr<QFixture> AddCircle::fixture() const {
-  auto circle = std::make_unique<Box2DCircle>();
+  std::unique_ptr<QFixture> fixture = std::make_unique<Box2DCircle>();
+  Box2DCircle* circle = static_cast<Box2DCircle*>(fixture.get());
   circle->setPosition(m_position);
   circle->setRadius(m_radius);
 
-  return circle;
+  return fixture;
 }
 
 void AddCircle::reset() {

@@ -14,10 +14,11 @@ void AddPolygon::reset() {
 
 std::unique_ptr<QFixture> AddPolygon::fixture() const {
   if (m_pts.size() < 3) return nullptr;
-  auto polygon = std::make_unique<Box2DPolygon>();
+  std::unique_ptr<QFixture> fixture = std::make_unique<Box2DPolygon>();
+  Box2DPolygon* polygon = static_cast<Box2DPolygon*>(fixture.get());
   polygon->setVertices(m_pts);
 
-  return polygon;
+  return fixture;
 }
 
 void AddPolygon::mousePressEvent(QMouseEvent*) {}
@@ -44,8 +45,9 @@ std::unique_ptr<SceneGraph::Node> AddPolygon::synchronize(
     return std::make_unique<Node>(m_pts, QSizeF(1, 1));
   }
 
-  auto node = std::make_unique<ConvexPolygonNode>(m_pts);
-  node->setColor(Qt::yellow);
+  std::unique_ptr<SceneGraph::Node> node =
+      std::make_unique<ConvexPolygonNode>(m_pts);
+  static_cast<ConvexPolygonNode*>(node.get())->setColor(Qt::yellow);
 
   return node;
 }
