@@ -9,6 +9,8 @@
 #include "Graphics/Primitives.hpp"
 #include "QBox2D/Fixture/Box2DChain.hpp"
 #include "QBox2D/Fixture/Box2DEdge.hpp"
+#include "QBox2D/Fixture/Box2DChain.hpp"
+#include "QBox2D/Fixture/Box2DBox.hpp"
 #include "QBox2D/QBody.hpp"
 #include "QBox2D/QFixture.hpp"
 #include "QBox2D/QWorld.hpp"
@@ -117,10 +119,28 @@ void QChain::createChain() {
     prev = it, it = i;
     next = next + 1 < pts.size() ? next + 1 : 0;
   }
+
+  qreal minx = INF, miny = INF, maxx = -INF, maxy = -INF;
+  for (QPointF p : vertices()) {
+    minx = std::min(minx, p.x());
+    miny = std::min(miny, p.y());
+    maxx = std::max(maxx, p.x());
+    maxy = std::max(maxy, p.y());
+  }
+
+  auto box = std::make_unique<Box2DBox>();
+  box->setSize(QSizeF(maxx - minx, maxy - miny));
+  box->setPosition(QPointF(minx, miny));
+  box->setVisible(false);
+  box->setSensor(true);
+  addFixture(std::move(box));
+
   auto chain = std::make_unique<Box2DChain>();
   chain->setVertices(pts);
   chain->setShadowCaster(false);
   chain->setSensor(true);
 
   addFixture(std::move(chain));
+
+
 }
