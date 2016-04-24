@@ -31,7 +31,7 @@ class QDestructionListener : public b2DestructionListener {
 class QItemSet : public SceneGraph::Item {
  private:
   QWorld *m_world;
-  std::unordered_map<QBody*, std::unique_ptr<QBody>> m_body;
+  std::unordered_map<QBody *, std::unique_ptr<QBody>> m_body;
 
  public:
   QItemSet(QWorld *world);
@@ -151,6 +151,8 @@ class QWorld : public SceneGraph::Item, public QOpenGLFunctions {
 
   QBody *bodyUnderPoint(const QPointF &p,
                         std::function<bool(QBody *)> ok = nullptr) const;
+  std::vector<QBody *> bodiesUnderPoint(const QPointF &p) const;
+
   std::vector<QFixture *> fixturesUnderPoint(const QPointF &p) const;
 
   std::vector<QFixture *> fixtures(const QRectF &rect) const;

@@ -55,7 +55,8 @@ SOURCES += \
     Graphics/TexturedRectangle.cpp \
     Utility/BaseItem.cpp \
     Utility/DisplayItem.cpp \
-    Utility/Utility.cpp
+    Utility/Utility.cpp \
+    Actions/FixtureEdit.cpp
 
 HEADERS += \
     Actions/Action.hpp \
@@ -108,7 +109,8 @@ HEADERS += \
     Utility/Factory.hpp \
     Utility/List.hpp \
     Utility/Pool.hpp \
-    Utility/Utility.hpp
+    Utility/Utility.hpp \
+    Actions/FixtureEdit.hpp
 
 unix|win32: LIBS += -L$$OUT_PWD/SceneGraph/ -lSceneGraph
 INCLUDEPATH += $$PWD/SceneGraph

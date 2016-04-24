@@ -7,10 +7,10 @@
 #include "Geometry/Functions.hpp"
 #include "Geometry/Vector2d.hpp"
 #include "Graphics/Primitives.hpp"
+#include "QBox2D/Fixture/Box2DBox.hpp"
+#include "QBox2D/Fixture/Box2DChain.hpp"
 #include "QBox2D/Fixture/Box2DChain.hpp"
 #include "QBox2D/Fixture/Box2DEdge.hpp"
-#include "QBox2D/Fixture/Box2DChain.hpp"
-#include "QBox2D/Fixture/Box2DBox.hpp"
 #include "QBox2D/QBody.hpp"
 #include "QBox2D/QFixture.hpp"
 #include "QBox2D/QWorld.hpp"
@@ -18,7 +18,7 @@
 
 static b2Vec2 tob2Vec2(QPointF p) { return b2Vec2(p.x(), p.y()); }
 
-QChain::QChain(Item *parent) : QBody(parent) {}
+QChain::QChain(Item *parent) : QBody(parent), m_texture(this) {}
 
 QChain::~QChain() {}
 
@@ -71,12 +71,17 @@ bool QChain::read(const QJsonObject &obj) {
   for (int i = 0; i < array.size(); i++)
     pts.push_back(Utility::Json::toPoint(array[i].toObject()));
   setVertices(pts);
+  texture().setSource(obj["textureSource"].toString());
+  texture().setTextureScale(
+      QVector2D(Utility::Json::toPoint(obj["textureScale"].toObject())));
 
   return true;
 }
 
 bool QChain::write(QJsonObject &obj) const {
   obj["class"] = QString("QChain");
+  obj["textureSource"] = texture().source();
+  obj["textureScale"] = Utility::Json::toObject(QPointF(0.02, 0.02));
 
   QJsonArray array;
   std::vector<QPointF> pts = vertices();
@@ -135,12 +140,5 @@ void QChain::createChain() {
   box->setSensor(true);
   addFixture(std::move(box));
 
-  auto chain = std::make_unique<Box2DChain>();
-  chain->setVertices(pts);
-  chain->setShadowCaster(false);
-  chain->setSensor(true);
-
-  addFixture(std::move(chain));
-
-
+  m_texture.setVertices(vertices());
 }

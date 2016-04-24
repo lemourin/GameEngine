@@ -287,6 +287,14 @@ QBody *QWorld::bodyUnderPoint(const QPointF &p,
   return nullptr;
 }
 
+std::vector<QBody *> QWorld::bodiesUnderPoint(const QPointF &p) const {
+  std::vector<QBody *> result;
+  for (QBody *body : visibleBodies()) {
+    if (body->testPoint(p)) result.push_back(body);
+  }
+  return result;
+}
+
 std::vector<QFixture *> QWorld::fixturesUnderPoint(const QPointF &point) const {
   QPointF eps(0.01, 0.01);
   QPointF lower = point - eps;

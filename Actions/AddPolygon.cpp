@@ -16,6 +16,8 @@ std::unique_ptr<QFixture> AddPolygon::fixture() const {
   if (m_pts.size() < 3) return nullptr;
   std::unique_ptr<QFixture> fixture = std::make_unique<Box2DPolygon>();
   Box2DPolygon* polygon = static_cast<Box2DPolygon*>(fixture.get());
+  polygon->setTextureSource(":/resources/chipped.png");
+  polygon->setTextureScale(QVector2D(0.02, 0.02));
   polygon->setVertices(m_pts);
 
   return fixture;

@@ -1,5 +1,6 @@
 #include "AddChain.hpp"
 #include <memory>
+#include "Graphics/TexturedPolygon.hpp"
 #include "MapEditor.hpp"
 #include "QBox2D/QChain.hpp"
 #include "QBox2D/QWorld.hpp"
@@ -32,6 +33,8 @@ void AddChain::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Return) {
     auto chain = std::make_unique<QChain>(world());
     chain->setVertices(m_pts);
+    chain->texture().setSource(":/resources/rock.png");
+    chain->texture().setTextureScale(QVector2D(0.05, 0.05));
     chain->initialize(world());
 
     m_state |= DirtyState::Finished;

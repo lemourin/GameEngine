@@ -19,8 +19,9 @@ BodyEdit::BodyEdit(MapEditor* p)
 void BodyEdit::mousePressEvent(QMouseEvent* e) { e->ignore(); }
 
 void BodyEdit::mouseReleaseEvent(QMouseEvent* event) {
-  QBody* body = world()->bodyUnderPoint(mapFromScreen(event->pos()));
-
+  std::vector<QBody*> b =
+      world()->bodiesUnderPoint(mapFromScreen(event->pos()));
+  QBody* body = b.empty() ? nullptr : b.front();
   if (body) {
     b2Fixture* fixture = body->body()->GetFixtureList();
     m_density = fixture->GetDensity();
