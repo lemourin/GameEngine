@@ -61,8 +61,9 @@ void QChain::cutCircle(Circle circle) {
 }
 
 bool QChain::testPoint(const QPointF &point) const {
+  QPointF p = mapFromItem(world(), point);
   std::vector<Vector2d> vert(m_vertices.begin(), m_vertices.end() - 1);
-  return Geometry::pointInPolygon(vert.begin(), vert.end(), Vector2d(point));
+  return Geometry::pointInPolygon(vert.begin(), vert.end(), Vector2d(p));
 }
 
 bool QChain::read(const QJsonObject &obj) {
