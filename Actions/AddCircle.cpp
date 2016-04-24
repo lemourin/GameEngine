@@ -7,7 +7,11 @@
 #include "QBox2D/QWorld.hpp"
 
 AddCircle::AddCircle(AddBody* parent)
-    : AddFixture(parent), m_stateChange(), m_state(), m_object(this) {}
+    : AddFixture(parent),
+      m_stateChange(),
+      m_state(),
+      m_radius(),
+      m_object(this) {}
 
 std::unique_ptr<QFixture> AddCircle::fixture() const {
   std::unique_ptr<QFixture> fixture = std::make_unique<Box2DCircle>();
@@ -44,11 +48,12 @@ void AddCircle::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void AddCircle::mouseMoveEvent(QMouseEvent* event) {
-  event->ignore();
   if ((m_state & PositionSet) && !(m_state & RadiusSet)) {
     m_radius = Vector2d(m_position - mapFromScreen(event->pos())).length();
     m_stateChange |= RadiusChanged;
     update();
+  } else {
+    event->ignore();
   }
 }
 

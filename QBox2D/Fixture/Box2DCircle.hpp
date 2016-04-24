@@ -21,6 +21,7 @@ class Box2DCircle : public QFixture {
   std::vector<QPointF> vertices() const;
 
   bool write(QJsonObject&) const;
+  bool read(const QJsonObject&);
 };
 
 #endif  // BOX2DCIRCLE_HPP

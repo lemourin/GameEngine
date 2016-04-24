@@ -40,12 +40,13 @@ void AddRectangle::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void AddRectangle::mouseMoveEvent(QMouseEvent *event) {
-  event->ignore();
   if ((m_state & SetFirst) && !(m_state & SetSecond)) {
     m_cursor = mapFromScreen(event->pos());
     m_state |= MovedCursor;
 
     update();
+  } else {
+    event->ignore();
   }
 }
 
