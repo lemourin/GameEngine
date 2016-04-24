@@ -289,8 +289,9 @@ std::vector<QBody *> QWorld::bodiesUnderPoint(const QPointF &p) const {
   return result;
 }
 
-std::vector<QFixture *> QWorld::fixturesUnderPoint(const QPointF &point) const {
-  QPointF eps(0.01, 0.01);
+std::vector<QFixture *> QWorld::fixturesUnderPoint(const QPointF &point,
+                                                   qreal margin) const {
+  QPointF eps(margin, margin);
   QPointF lower = point - eps;
   QPointF upper = point + eps;
   auto found = fixtures(QRectF(lower, upper));

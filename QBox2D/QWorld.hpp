@@ -153,7 +153,8 @@ class QWorld : public SceneGraph::Item, public QOpenGLFunctions {
                         std::function<bool(QBody *)> ok = nullptr) const;
   std::vector<QBody *> bodiesUnderPoint(const QPointF &p) const;
 
-  std::vector<QFixture *> fixturesUnderPoint(const QPointF &p) const;
+  std::vector<QFixture *> fixturesUnderPoint(const QPointF &p,
+                                             qreal margin = 0.01) const;
 
   std::vector<QFixture *> fixtures(const QRectF &rect) const;
 
