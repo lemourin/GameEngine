@@ -23,6 +23,7 @@ void AddChain::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void AddChain::mouseMoveEvent(QMouseEvent* event) {
+  event->ignore();
   m_mousePos = mapFromScreen(event->pos());
 
   m_state |= DirtyState::MousePos;

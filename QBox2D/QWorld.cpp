@@ -276,13 +276,7 @@ std::vector<QBody *> QWorld::bodies(const QRectF &rect) const {
 QBody *QWorld::bodyUnderPoint(const QPointF &p,
                               std::function<bool(QBody *)> ok) const {
   for (QBody *body : visibleBodies()) {
-    bool hasSensor = false;
-    for (QFixture *f = body->firstFixture(); f; f = f->next()) {
-      hasSensor |= f->isSensor();
-      if (hasSensor) break;
-    }
-
-    if (!hasSensor && body->testPoint(p) && (!ok || ok(body))) return body;
+    if (body->testPoint(p) && (!ok || ok(body))) return body;
   }
   return nullptr;
 }

@@ -44,6 +44,7 @@ void AddCircle::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void AddCircle::mouseMoveEvent(QMouseEvent* event) {
+  event->ignore();
   if ((m_state & PositionSet) && !(m_state & RadiusSet)) {
     m_radius = Vector2d(m_position - mapFromScreen(event->pos())).length();
     m_stateChange |= RadiusChanged;
