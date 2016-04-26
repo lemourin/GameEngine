@@ -47,6 +47,7 @@ class FixtureEdit : public SubAction {
 
  public:
   FixtureEdit(MapEditor *);
+  void reset();
 
   inline QString name() const { return "FixtureEdit"; }
 

@@ -36,7 +36,14 @@ void FixtureEdit::mouseReleaseEvent(QMouseEvent* e) {
 }
 
 FixtureEdit::FixtureEdit(MapEditor* parent)
-    : SubAction(parent), m_actionObject(this), m_fixture(), m_chain() {}
+  : SubAction(parent), m_actionObject(this), m_fixture(), m_chain() {}
+
+void FixtureEdit::reset() {
+  Action::reset();
+  m_chain = nullptr;
+  m_fixture = nullptr;
+  emit m_actionObject.fixtureChanged();
+}
 
 void FixtureEdit::apply() {
   if (m_fixture) {
