@@ -8,7 +8,9 @@ MapEditor::MapEditor(MainAction *item, std::unique_ptr<MapEditorCallback> call)
       m_grabItem(this),
       m_deleteItem(this),
       m_bodyEdit(this),
-      m_action({addChain(), addBody(), grabItem(), deleteItem(), bodyEdit()}),
+      m_fixtureEdit(this),
+      m_action({addChain(), addBody(), grabItem(), deleteItem(), bodyEdit(),
+                fixtureEdit()}),
       m_object(this),
       m_callback(std::move(call)) {
   for (Action *action : m_action) action->setWorld(world());

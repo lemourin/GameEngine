@@ -4,6 +4,7 @@
 #include "AddChain.hpp"
 #include "BodyEdit.hpp"
 #include "DeleteItem.hpp"
+#include "FixtureEdit.hpp"
 #include "GrabItem.hpp"
 #include "Utility/BaseItem.hpp"
 
@@ -23,6 +24,7 @@ class MapEditor : public SubAction {
   GrabItem m_grabItem;
   DeleteItem m_deleteItem;
   BodyEdit m_bodyEdit;
+  FixtureEdit m_fixtureEdit;
 
   std::vector<Action *> m_action;
   ActionObject m_object;
@@ -40,6 +42,7 @@ class MapEditor : public SubAction {
   inline GrabItem *grabItem() { return &m_grabItem; }
   inline DeleteItem *deleteItem() { return &m_deleteItem; }
   inline BodyEdit *bodyEdit() { return &m_bodyEdit; }
+  inline FixtureEdit *fixtureEdit() { return &m_fixtureEdit; }
 
   inline QString name() const { return "MapEditor"; }
 };

@@ -3,9 +3,26 @@
 
 #include "SubAction.hpp"
 
-class FixtureEdit : public SubAction {
+class FixtureEdit;
+
+class FixtureEditObject : public ActionObject {
+ private:
  public:
-  FixtureEdit(MapEditor*);
+  FixtureEditObject(FixtureEdit *);
+};
+
+class FixtureEdit : public SubAction {
+ private:
+  FixtureEditObject m_actionObject;
+
+ protected:
+  void mousePressEvent(QMouseEvent *);
+  void mouseReleaseEvent(QMouseEvent *);
+
+ public:
+  FixtureEdit(MapEditor *);
+
+  inline QString name() const { return "FixtureEdit"; }
 };
 
 #endif  // FIXTUREEDIT_HPP
