@@ -149,10 +149,13 @@ class QWorld : public SceneGraph::Item, public QOpenGLFunctions {
   void read(const QJsonObject &);
   void write(QJsonObject &) const;
 
-  QBody *bodyUnderPoint(const QPointF &p,
-                        std::function<bool(QBody *)> ok = nullptr) const;
-  std::vector<QBody *> bodiesUnderPoint(const QPointF &p) const;
+  QBody *visibleBodyUnderPoint(const QPointF &p,
+                               std::function<bool(QBody *)> ok = nullptr) const;
+  std::vector<QBody *> visibleBodiesUnderPoint(const QPointF &p) const;
 
+  QFixture *fixtureUnderPoint(const QPointF &point,
+                              std::function<bool(QFixture *)> ok = nullptr,
+                              qreal margin = 0.01) const;
   std::vector<QFixture *> fixturesUnderPoint(const QPointF &p,
                                              qreal margin = 0.01) const;
 

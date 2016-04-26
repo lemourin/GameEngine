@@ -21,7 +21,7 @@ GrabItem::~GrabItem() { destroyJoint(); }
 bool GrabItem::pickItem(QPointF point) {
   QWorld* w = world();
 
-  m_grabbedBody = w->bodyUnderPoint(point);
+  m_grabbedBody = w->visibleBodyUnderPoint(point);
 
   if (!m_grabbedBody) return false;
 

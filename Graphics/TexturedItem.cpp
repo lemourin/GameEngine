@@ -12,6 +12,7 @@ void TexturedItem::setSource(const QString& path) {
       setVisible(true);
     else
       setVisible(false);
+    update();
   }
 }
 

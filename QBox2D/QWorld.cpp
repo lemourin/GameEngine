@@ -273,20 +273,30 @@ std::vector<QBody *> QWorld::bodies(const QRectF &rect) const {
   return objs;
 }
 
-QBody *QWorld::bodyUnderPoint(const QPointF &p,
-                              std::function<bool(QBody *)> ok) const {
+QBody *QWorld::visibleBodyUnderPoint(const QPointF &p,
+                                     std::function<bool(QBody *)> ok) const {
   for (QBody *body : visibleBodies()) {
     if (body->testPoint(p) && (!ok || ok(body))) return body;
   }
   return nullptr;
 }
 
-std::vector<QBody *> QWorld::bodiesUnderPoint(const QPointF &p) const {
+std::vector<QBody *> QWorld::visibleBodiesUnderPoint(const QPointF &p) const {
   std::vector<QBody *> result;
   for (QBody *body : visibleBodies()) {
     if (body->testPoint(p)) result.push_back(body);
   }
   return result;
+}
+
+QFixture *QWorld::fixtureUnderPoint(const QPointF &point,
+                                    std::function<bool(QFixture *)> ok,
+                                    qreal margin) const {
+  for (QFixture *f : fixturesUnderPoint(point, margin)) {
+    b2Vec2 p(point.x(), point.y());
+    if (f->fixture()->TestPoint(p) && (!ok || ok(f))) return f;
+  }
+  return nullptr;
 }
 
 std::vector<QFixture *> QWorld::fixturesUnderPoint(const QPointF &point,

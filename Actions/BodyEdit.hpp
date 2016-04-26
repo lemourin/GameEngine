@@ -59,6 +59,8 @@ class BodyEditObject : public ActionObject {
   void update();
 };
 
+// TODO: Add onDestroyedBody so that action knows when currently edited body is
+// destroyed.
 class BodyEdit : public SubAction {
  private:
   friend class BodyEditObject;
