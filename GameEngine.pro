@@ -120,3 +120,16 @@ unix|win32: LIBS += -L$$OUT_PWD/Box2D/ -lBox2D
 INCLUDEPATH += $$PWD/Box2D
 DEPENDPATH += $$PWD/Box2D
 
+RESOURCES +=
+
+DISTFILES += \
+    UserInterface/BodyEdit/BodyEditControl.qml \
+    UserInterface/BodyEdit/Option.qml \
+    UserInterface/FixtureEdit/FixtureEditControl.qml \
+    UserInterface/Console.qml \
+    UserInterface/ConsoleView.qml \
+    UserInterface/Data.qml \
+    UserInterface/LoadMap.qml \
+    UserInterface/PopUpControl.qml \
+    UserInterface/SaveMap.qml
+
