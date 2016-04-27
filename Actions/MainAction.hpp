@@ -21,6 +21,8 @@ class MainAction : public Action {
 
   inline MapEditor *mapEditor() { return &m_mapEditor; }
   inline FileAction *fileAction() { return &m_fileAction; }
+
+  void registerUserInterface(QQmlContext*);
 };
 
 #endif  // MAINACTION_HPP
