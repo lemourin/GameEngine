@@ -131,5 +131,6 @@ DISTFILES += \
     UserInterface/Data.qml \
     UserInterface/LoadMap.qml \
     UserInterface/PopUpControl.qml \
-    UserInterface/SaveMap.qml
+    UserInterface/SaveMap.qml \
+    UserInterface/GameEngineConsole.qml
 

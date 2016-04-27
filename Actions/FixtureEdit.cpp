@@ -33,6 +33,7 @@ void FixtureEdit::mouseReleaseEvent(QMouseEvent* e) {
   }
 
   emit m_actionObject.fixtureChanged();
+  e->ignore();
 }
 
 FixtureEdit::FixtureEdit(MapEditor* parent)
