@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtQuick.Dialogs 1.2
 
 FocusScope {
     width: childrenRect.width
@@ -19,12 +20,24 @@ FocusScope {
                 Row {
                     Button {
                         text: "Load from file:"
-                        onClicked: loadMap.load(fileName.text);
+                        onClicked: {
+                            if (fileName.mapPath !== "")
+                                loadMap.load(fileName.text);
+                        }
                     }
 
-                    TextField {
+                    Button {
+                        property string mapPath: ""
+
                         id: fileName
-                        text: "map00.json"
+                        text: mapPath == "" ? "Open..." : mapPath
+                        onClicked: fileDialog.visible = true
+                    }
+
+                    FileDialog {
+                        id: fileDialog
+                        onAccepted: fileName.mapPath = fileDialog.fileUrls[0]
+                        onVisibleChanged: app.allowLockCursor = !visible
                     }
                 }
             }

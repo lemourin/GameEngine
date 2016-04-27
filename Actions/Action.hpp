@@ -71,6 +71,8 @@ class Action : public SceneGraph::Item {
   inline QWorld* world() const { return m_world; }
   inline void setWorld(QWorld* w) { m_world = w; }
 
+  inline SubAction* currentSubAction() { return m_currentSubAction; }
+
   inline virtual void finished() {}
 };
 

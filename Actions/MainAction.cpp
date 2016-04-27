@@ -7,7 +7,8 @@ MainAction::MainAction(QWorld *w, std::unique_ptr<FileActionResolver> resolver,
                        std::unique_ptr<MapEditorCallback> mapEditorCallback)
     : Action(w, w),
       m_mapEditor(this, std::move(mapEditorCallback)),
-      m_fileAction(this, std::move(resolver)) {}
+      m_fileAction(this, std::move(resolver)),
+      m_actionObject(this) {}
 
 MainAction::~MainAction() {}
 
@@ -16,6 +17,8 @@ void MainAction::registerUserInterface(QQmlContext *context) {
   LoadMapAction *loadMapAction = fileAction()->loadMapAction();
 
   AddBody *addBody = mapEditor()->addBody();
+
+  context->setContextProperty("mainAction", object());
 
   context->setContextProperty("mapEditor", mapEditor()->object());
   context->setContextProperty("fileAction", fileAction()->object());
@@ -44,4 +47,11 @@ void MainAction::subActionEnabledChanged(SubAction *action) {
   if (!action->enabled()) {
     world()->setFocus(true);
   }
+}
+
+MainActionObject::MainActionObject(MainAction *action) : ActionObject(action) {}
+
+void MainActionObject::quit() {
+  if (action()->currentSubAction())
+    action()->currentSubAction()->setEnabled(false);
 }
