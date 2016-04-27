@@ -6,6 +6,7 @@ TEMPLATE = lib
 OBJECTS_DIR = .obj
 MOC_DIR = .moc
 INCLUDEPATH += Box2D/
+android: QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += \
     Actions/Action.cpp \
