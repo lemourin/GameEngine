@@ -2,6 +2,7 @@ import QtQuick 2.2
 
 Rectangle {
     property int margin: 5
+    property bool consoleEnabled: false
 
     id: rect
     x: 0.05 * root.width
@@ -33,6 +34,8 @@ Rectangle {
         if (width === 0 || height === 0)
             visible = false
     }
+
+    onConsoleEnabledChanged: toggle()
 
     Behavior on width {
         SequentialAnimation {

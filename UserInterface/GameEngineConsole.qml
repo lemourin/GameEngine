@@ -3,9 +3,9 @@ import "BodyEdit"
 import "FixtureEdit"
 
 Item {
-    anchors.fill: parent
+    property alias consoleEnabled: consoleView.consoleEnabled
 
-    function toggle() { consoleView.toggle() }
+    anchors.fill: parent
 
     Data { }
     BodyEditControl { }
