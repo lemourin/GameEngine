@@ -1,6 +1,5 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
-import Environment 1.0
 
 Row {
     id: mainMenu
@@ -27,7 +26,7 @@ Row {
         }
 
         Button {
-            visible: app.system !== Environment.Android
+            visible: app.system !== "android"
             text: "Toggle fullscreen"
             onClicked: app.fullscreen ^= 1
         }

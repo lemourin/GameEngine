@@ -41,6 +41,10 @@ void MainAction::registerUserInterface(QQmlContext *context) {
                               mapEditor()->fixtureEdit()->object());
 }
 
+void MainAction::step() {
+  mapEditor()->grabItem()->update();
+}
+
 void MainAction::subActionEnabledChanged(SubAction *action) {
   Action::subActionEnabledChanged(action);
 

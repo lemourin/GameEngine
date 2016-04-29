@@ -41,6 +41,7 @@ void GrabItem::releaseItem() {
 
 void GrabItem::setDirection(QPointF pos) {
   if (m_mouseJoint) m_mouseJoint->setTarget(pos);
+  update();
 }
 
 void GrabItem::reset() {
@@ -64,8 +65,6 @@ std::unique_ptr<SceneGraph::Node> GrabItem::synchronize(
 
     t->updateGeometry();
   }
-
-  update();
 
   return node;
 }

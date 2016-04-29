@@ -67,6 +67,7 @@ class LightSystem : public SceneGraph::Item {
   inline SceneGraph::ShaderSource* lightTexture() { return &m_lightTexture; }
 
   QWorld* world() const;
+  void step();
 
   const std::unordered_set<StaticLight*>& visibleLights() const;
 

@@ -6,18 +6,18 @@
 #include "QBox2D/QWorld.hpp"
 #include "StaticLight.hpp"
 
-EnlightedItems::EnlightedItems(LightSystem* system, SceneGraph::Item* parent)
+EnlightedItems::EnlightedItems(LightSystem *system, SceneGraph::Item *parent)
     : SceneGraph::Item(parent), m_lightSystem(system), m_state() {}
 
 void EnlightedItems::clear() { m_state |= Reset; }
 
-QWorld* EnlightedItems::world() const { return lightSystem()->world(); }
+QWorld *EnlightedItems::world() const { return lightSystem()->world(); }
 
 std::unique_ptr<SceneGraph::Node> EnlightedItems::synchronize(
     std::unique_ptr<SceneGraph::Node> root) {
   if (!root) root = std::make_unique<Node>();
 
-  Node* node = static_cast<Node*>(root.get());
+  Node *node = static_cast<Node *>(root.get());
   while (node->firstChild()) node->removeChild(node->firstChild());
 
   if (m_state & Reset) {
@@ -32,25 +32,22 @@ std::unique_ptr<SceneGraph::Node> EnlightedItems::synchronize(
 
   uint it = 0;
   QRectF visibleArea = world()->visibleRect();
-  for (StaticLight* light : lightSystem()->visibleLights()) {
+  for (StaticLight *light : lightSystem()->visibleLights()) {
     if (!light->dynamicLight()) continue;
 
     QRectF lightRect = light->matrix().mapRect(light->boundingRect());
     QRectF rect = visibleArea.intersected(lightRect);
-    for (QFixture* f : world()->fixtures(rect)) {
+    for (QFixture *f : world()->fixtures(rect)) {
       if (f->shadowCaster()) {
-        EnlightedNode* enlightedNode = node->getNode(f, light, it++);
+        EnlightedNode *enlightedNode = node->getNode(f, light, it++);
         node->appendChild(enlightedNode);
       }
     }
   }
-
-  update();
-
   return root;
 }
 
-void EnlightedItems::onFixtureDestroyed(QFixture* f) {
+void EnlightedItems::onFixtureDestroyed(QFixture *f) {
   if (f->shadowCaster()) m_destroyedFixture.push_back(f);
 }
 
@@ -59,16 +56,16 @@ EnlightedNode::EnlightedNode() {
   appendChild(&m_geometryNode);
 }
 
-void EnlightedNode::update(QFixture* fixture, Light* light) {
+void EnlightedNode::update(QFixture *fixture, Light *light) {
   updateMatrix(fixture);
   updateMaterial(light);
 }
 
-void EnlightedNode::setGeometry(SceneGraph::Geometry* g) {
+void EnlightedNode::setGeometry(SceneGraph::Geometry *g) {
   m_geometryNode.setGeometry(g);
 }
 
-void EnlightedNode::updateMaterial(Light* light) {
+void EnlightedNode::updateMaterial(Light *light) {
   m_material.setNormalMap(light->lightSystem()->normalMap()->shaderNode());
   QVector3D p(light->position().x(), light->position().y(), light->z());
   m_material.setLightPosition(matrix().inverted() * p);
@@ -76,7 +73,7 @@ void EnlightedNode::updateMaterial(Light* light) {
   m_material.setAttenuation(light->attenuation());
 }
 
-void EnlightedNode::updateMatrix(QFixture* fixture) {
+void EnlightedNode::updateMatrix(QFixture *fixture) {
   setMatrix(fixture->body()->matrix() * fixture->matrix());
 }
 
@@ -90,7 +87,7 @@ void EnlightedItems::Node::clear() {
   m_node.resize(1);
 }
 
-SceneGraph::Geometry* EnlightedItems::Node::geometry(QFixture* fixture) {
+SceneGraph::Geometry *EnlightedItems::Node::geometry(QFixture *fixture) {
   if (m_data.find(fixture) != m_data.end()) return m_data[fixture].get();
 
   std::vector<QPointF> vert = fixture->vertices();
@@ -98,7 +95,7 @@ SceneGraph::Geometry* EnlightedItems::Node::geometry(QFixture* fixture) {
       std::make_unique<SceneGraph::Geometry>(
           std::vector<SceneGraph::Attribute>({{2, GL_FLOAT}}), vert.size() - 1,
           sizeof(Vertex));
-  Vertex* array = g->vertexData<Vertex>();
+  Vertex *array = g->vertexData<Vertex>();
   g->setDrawingMode(GL_TRIANGLE_FAN);
   for (uint i = 0; i + 1 < vert.size(); i++)
     array[i] = {float(vert[i].x()), float(vert[i].y())};
@@ -107,20 +104,20 @@ SceneGraph::Geometry* EnlightedItems::Node::geometry(QFixture* fixture) {
   return (m_data[fixture] = std::move(g)).get();
 }
 
-EnlightedNode* EnlightedItems::Node::getNode(QFixture* f, Light* light,
+EnlightedNode *EnlightedItems::Node::getNode(QFixture *f, Light *light,
                                              uint it) {
   if (it >= m_node.size()) m_node.resize(2 * m_node.size());
 
   if (m_node[it] == nullptr) m_node[it] = std::make_unique<EnlightedNode>();
 
-  EnlightedNode* node = m_node[it].get();
+  EnlightedNode *node = m_node[it].get();
   node->setGeometry(geometry(f));
   node->update(f, light);
 
   return node;
 }
 
-void EnlightedItems::Node::destroyedFixture(void* f) {
+void EnlightedItems::Node::destroyedFixture(void *f) {
   auto it = m_data.find(f);
   if (it != m_data.end()) {
     m_data.erase(it);
