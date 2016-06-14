@@ -93,6 +93,10 @@ void LightSystem::setResolution(QSize s) {
 
 QWorld* LightSystem::world() const { return m_world; }
 
+void LightSystem::step() {
+  m_enlightedItems.update();
+}
+
 void LightSystem::addLight(StaticLight* light) {
   m_light.push_back(light);
   light->setParent(nullptr);

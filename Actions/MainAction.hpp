@@ -35,6 +35,8 @@ class MainAction : public Action {
   inline FileAction *fileAction() { return &m_fileAction; }
 
   void registerUserInterface(QQmlContext *);
+
+  void step();
 };
 
 #endif  // MAINACTION_HPP

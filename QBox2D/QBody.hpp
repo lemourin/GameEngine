@@ -33,7 +33,6 @@ class QBody : public BaseItem {
   void removeFixture(QFixture*);
 
  protected:
-  virtual void synchronize();
   virtual void fixtureAdded(QFixture*);
   virtual void fixtureDestroyed(QFixture*);
   virtual void releaseResource(QFixture*);
@@ -131,6 +130,8 @@ class QBody : public BaseItem {
   virtual Type* type() const { return nullptr; }
 
   inline uint id() const { return m_id; }
+
+  virtual void synchronize();
 
   static QBody* toQBody(b2Body* body);
   static const QBody* toQBody(const b2Body* body);
