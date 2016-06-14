@@ -41,6 +41,7 @@ class AddChain : public SubAction {
   inline const std::vector<QPointF>& pts() const { return m_pts; }
 
   void reset();
+  void finished();
 
   inline QString name() const { return "AddChain"; }
 };

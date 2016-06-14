@@ -14,6 +14,20 @@ void AddChain::reset() {
   update();
 }
 
+void AddChain::finished() {
+  SubAction::finished();
+  auto chain = std::make_unique<QChain>(world());
+  chain->setVertices(m_pts);
+  chain->texture().setSource(":/resources/rock.png");
+  chain->texture().setTextureScale(QVector2D(0.05, 0.05));
+  chain->initialize(world());
+
+  m_state |= DirtyState::Finished;
+  update();
+
+  world()->itemSet()->addBody(std::move(chain));
+}
+
 void AddChain::mousePressEvent(QMouseEvent*) {}
 
 void AddChain::mouseReleaseEvent(QMouseEvent* event) {
@@ -33,17 +47,6 @@ void AddChain::mouseMoveEvent(QMouseEvent* event) {
 
 void AddChain::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Return) {
-    auto chain = std::make_unique<QChain>(world());
-    chain->setVertices(m_pts);
-    chain->texture().setSource(":/resources/rock.png");
-    chain->texture().setTextureScale(QVector2D(0.05, 0.05));
-    chain->initialize(world());
-
-    m_state |= DirtyState::Finished;
-    update();
-
-    world()->itemSet()->addBody(std::move(chain));
-
     finished();
   }
 }

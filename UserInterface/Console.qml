@@ -90,6 +90,15 @@ Row {
         }
 
         Column {
+            visible: addChain.enabled
+
+            Button {
+                text: "Finish"
+                onClicked: addChain.finished()
+            }
+        }
+
+        Column {
             visible: addBody.enabled
 
             Button {
