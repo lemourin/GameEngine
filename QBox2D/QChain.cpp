@@ -50,6 +50,8 @@ void QChain::cutCircle(Circle circle) {
     if (std::fabs(Geometry::area(pts.begin(), pts.end())) > 5.f) {
       auto chain = std::make_unique<QChain>(world());
       chain->setVertices(std::vector<QPointF>(pts.begin(), pts.end()));
+      chain->texture().setSource(texture().source());
+      chain->texture().setTextureScale(texture().textureScale());
       chain->initializeLater(world());
 
       world()->itemSet()->addBody(std::move(chain));
@@ -82,7 +84,8 @@ bool QChain::read(const QJsonObject &obj) {
 bool QChain::write(QJsonObject &obj) const {
   obj["class"] = QString("QChain");
   obj["textureSource"] = texture().source();
-  obj["textureScale"] = Utility::Json::toObject(QPointF(0.02, 0.02));
+  obj["textureScale"] =
+      Utility::Json::toObject(texture().textureScale().toPointF());
 
   QJsonArray array;
   std::vector<QPointF> pts = vertices();
@@ -139,6 +142,7 @@ void QChain::createChain() {
   box->setPosition(QPointF(minx, miny));
   box->setVisible(false);
   box->setSensor(true);
+  box->setShadowCaster(false);
   addFixture(std::move(box));
 
   m_texture.setVertices(vertices());
