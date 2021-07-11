@@ -1,6 +1,7 @@
 #include "SpriteSequence.hpp"
 #include <QTimerEvent>
 #include <cassert>
+#include <cmath>
 
 SpriteSequence::SpriteSequence(Item* parent)
     : SceneGraph::Item(parent),
